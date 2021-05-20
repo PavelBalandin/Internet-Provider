@@ -1,0 +1,63 @@
+/* ====== HEADER ====== */
+.nav-wrapper {
+    background: #212121 !important;
+}
+
+.brand-logo {
+    padding: 0 20px !important;
+    font-size: 20px !important;
+}
+
+/* ====== LOGIN PAGE ====== */
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.login button {
+    width: 100%;
+}
+
+.login .row {
+    width: 100%;
+}
+
+.login .title {
+    font-size: 22px;
+    color: #a0a0a0;
+}
+
+/* ====== TARIFF PAGE ====== */
+
+.sort_tariff_from {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.sort_tariff_from input {
+    width: 80px;
+    height: 40px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.plan_load {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
