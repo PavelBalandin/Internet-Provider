@@ -9,9 +9,16 @@
         <div class="nav-wrapper">
             <a href="#!" class="brand-logo">Internet Provider</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/InternetProvider/index.jsp">Services</a></li>
-                <li><a href="/InternetProvider/tariff.jsp">Tariffs</a></li>
-                <li><a class="dropdown-trigger" href="/InternetProvider/login.jsp" data-target="dropdown1">Log in<i class="material-icons right">arrow_drop_down</i></a>
+                <li><a href="${pageContext.request.contextPath}/service">Services</a></li>
+                <li><a href="${pageContext.request.contextPath}/tariff">Tariffs</a></li>
+                <li>
+                    <a class="dropdown-trigger" href="${pageContext.request.contextPath}/login.jsp"
+                       data-target="dropdown1">
+                        Log in
+                        <i class="material-icons right">
+                            arrow_drop_down
+                        </i>
+                    </a>
                 </li>
             </ul>
         </div>

@@ -10,6 +10,10 @@ public class Account extends BaseEntity {
 
     private int userId;
 
+    public Account(Long id) {
+        super(id);
+    }
+
     public Integer getPayment() {
         return payment;
     }

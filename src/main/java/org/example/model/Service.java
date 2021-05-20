@@ -16,6 +16,11 @@ public class Service extends BaseEntity {
         this.name = name;
     }
 
+    public Service(Long id, String name) {
+        super(id);
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

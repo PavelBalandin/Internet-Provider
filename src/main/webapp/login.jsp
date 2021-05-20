@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Login</title>
@@ -8,7 +11,7 @@
 </head>
 <body>
 <div class="login">
-    <form method="post" action="/InternetProvider/login">
+    <form method="post" action="${pageContext.request.contextPath}/login">
         <p class="center-align title">Login</p>
         <div class="row">
             <div class="input-field col s12">

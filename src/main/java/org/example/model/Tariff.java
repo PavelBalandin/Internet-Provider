@@ -16,6 +16,10 @@ public class Tariff extends BaseEntity {
 
     private int serviceId;
 
+    public Tariff(Long id) {
+        super(id);
+    }
+
     public String getName() {
         return name;
     }

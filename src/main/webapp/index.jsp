@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Home page</title>
@@ -21,22 +24,12 @@
             </thead>
 
             <tbody>
-            <tr>
-                <td>Internet</td>
-                <td><a href="">More</a></td>
-            </tr>
-            <tr>
-                <td>TV</td>
-                <td><a href="">More</a></td>
-            </tr>
-            <tr>
-                <td>Phone</td>
-                <td><a href="">More</a></td>
-            </tr>
-            <tr>
-                <td>IP_TV</td>
-                <td><a href="">More</a></td>
-            </tr>
+            <c:forEach var="service" items="${serviceList}">
+                <tr>
+                    <td>${service.name}</td>
+                    <td><a href="${pageContext.request.contextPath}/tariff?id=${service.id}">More</a></td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

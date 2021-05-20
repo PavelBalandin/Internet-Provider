@@ -18,6 +18,10 @@ public class User extends BaseEntity {
 
     private int statusId;
 
+    public User(Long id) {
+        super(id);
+    }
+
     public String getLogin() {
         return login;
     }
