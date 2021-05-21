@@ -39,7 +39,7 @@ public class Controller extends HttpServlet {
         logger.trace("Command name: " + commandName);
 
         Command command = commands.getOrDefault(commandName, r -> "/index.jsp");
-        logger.trace("Command: " + command.getClass().getName());
+        logger.trace("Command: " + command.getClass().getSimpleName());
 
         String page = command.execute(req);
         req.getRequestDispatcher(page).forward(req, resp);

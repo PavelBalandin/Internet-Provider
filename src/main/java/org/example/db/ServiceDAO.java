@@ -19,11 +19,9 @@ public class ServiceDAO {
 
     private static final String DELETE_SERVICE = "DELETE FROM SERVICES WHERE id = ?;";
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/InternetProvider?user=postgres&password=0147258";
-
     public List<Service> getServices() {
         List<Service> serviceList = new ArrayList<>();
-        try (Connection connection = DBManager.getInstance().getConnection(URL)) {
+        try (Connection connection = DBCPDataSource.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet resultSet = statement.executeQuery(SELECT_SERVICES)) {
                     while (resultSet.next()) {

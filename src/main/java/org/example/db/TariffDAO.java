@@ -20,8 +20,6 @@ public class TariffDAO {
 
     private static final String DELETE_TARIFFS = "DELETE FROM TARIFFS WHERE id = ?;";
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/InternetProvider?user=postgres&password=0147258";
-
     public List<Tariff> getTariffsByServiceId(int id, String sortBy, String sortHow) {
         if (sortBy == null) {
             sortBy = "name";
@@ -31,7 +29,7 @@ public class TariffDAO {
         }
 
         List<Tariff> tariffList = new ArrayList<>();
-        try (Connection connection = DBManager.getInstance().getConnection(URL)) {
+        try (Connection connection = DBCPDataSource.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 String query = String.format(SELECT_TARIFFS_BY_SERVICE_ID, id, sortBy, sortHow);
                 try (ResultSet resultSet = statement.executeQuery(query)) {
