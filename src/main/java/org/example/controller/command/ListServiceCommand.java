@@ -10,7 +10,7 @@ public class ListServiceCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
-        List<Service> serviceList = new ServiceDAO().gerServices();
+        List<Service> serviceList = new ServiceDAO().getServices();
 
         request.setAttribute("serviceList", serviceList);
         return "/index.jsp";

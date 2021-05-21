@@ -1,31 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Pavel
-  Date: 20.05.2021
-  Time: 0:00
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/views/components/lib.jsp" %>
 <html>
 <head>
     <title>Title</title>
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <%@ include file="/WEB-INF/views/components/head.jsp" %>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/components/header.jsp" %>
 <div class="container">
-    <form class="sort_tariff_from" method="get" action="/">
+    <form class="sort_tariff_from" method="get" action="${pageContext.request.contextPath}/InternetProvider/tariff">
         <div class="input-field col s12">
-            <select>
-                <option value="name asc" selected>a-z</option>
-                <option value="name desc">z-a</option>
-                <option value="price asc">$-$$$</option>
-                <option value="price desc">$$$-$</option>
+            <input type="hidden" name="id" value="${service_id}">
+            <select name="sort">
+                <option value="name asc" ${sessionScope.sort.equals("name asc") ? "selected" : ""}>a-z</option>
+                <option value="name desc" ${sessionScope.sort.equals("name desc") ? "selected" : ""}>z-a</option>
+                <option value="price asc" ${sessionScope.sort.equals("price asc") ? "selected" : ""}>$-$$$</option>
+                <option value="price desc" ${sessionScope.sort.equals("price desc") ? "selected" : ""}>$$$-$</option>
             </select>
-            <label>Sort order</label>
         </div>
         <input class="btn" type="submit" value='sort'>
     </form>
@@ -41,48 +32,14 @@
             </thead>
 
             <tbody>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
-            <tr>
-                <td>SuperNet Turbo</td>
-                <td>Безліміт на всіх операторів, 4000 мб інтернету</td>
-                <td>300 грн/місяця</td>
-                <td><a href="index.jsp">Придбати</a></td>
-            </tr>
+            <c:forEach var="tariff" items="${tariffList}">
+                <tr>
+                    <td>${tariff.name}</td>
+                    <td>${tariff.description}</td>
+                    <td>${tariff.price} грн / ${tariff.duration} днів</td>
+                    <td><a href="index.jsp">Придбати</a></td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
         <div class="plan_load">

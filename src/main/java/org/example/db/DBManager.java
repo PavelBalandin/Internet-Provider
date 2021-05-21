@@ -20,6 +20,12 @@ public final class DBManager {
     public Connection getConnection(String url) {
         Connection connection = null;
         try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
             connection = DriverManager.getConnection(url);
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());

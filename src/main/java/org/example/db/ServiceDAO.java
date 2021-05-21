@@ -2,6 +2,7 @@ package org.example.db;
 
 import org.example.model.Service;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +19,25 @@ public class ServiceDAO {
 
     private static final String DELETE_SERVICE = "DELETE FROM SERVICES WHERE id = ?;";
 
-    public List<Service> gerServices() {
+    private static final String URL = "jdbc:postgresql://localhost:5432/InternetProvider?user=postgres&password=0147258";
+
+    public List<Service> getServices() {
         List<Service> serviceList = new ArrayList<>();
-        serviceList.add(new Service((long) 1, "Internet"));
-        serviceList.add(new Service((long) 2, "Phone"));
-        serviceList.add(new Service((long) 3, "IP-TV"));
-        serviceList.add(new Service((long) 4, "TV"));
-        serviceList.add(new Service((long) 5, "X box"));
+        try (Connection connection = DBManager.getInstance().getConnection(URL)) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery(SELECT_SERVICES)) {
+                    while (resultSet.next()) {
+                        Service service = new Service(
+                                (long) resultSet.getInt("id"),
+                                resultSet.getString("name")
+                        );
+                        serviceList.add(service);
+                    }
+                }
+            }
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
         return serviceList;
     }
 }
