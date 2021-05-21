@@ -18,8 +18,14 @@ public class User extends BaseEntity {
 
     private int statusId;
 
-    public User(Long id) {
+    public User(Long id, String login, String password, String firstName, String lastName, int roleId, int statusId) {
         super(id);
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roleId = roleId;
+        this.statusId = statusId;
     }
 
     public String getLogin() {

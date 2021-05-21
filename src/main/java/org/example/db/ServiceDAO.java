@@ -2,7 +2,10 @@ package org.example.db;
 
 import org.example.model.Service;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class ServiceDAO {
 
     public List<Service> getServices() {
         List<Service> serviceList = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getConnection()) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet resultSet = statement.executeQuery(SELECT_SERVICES)) {
                     while (resultSet.next()) {
@@ -38,4 +41,6 @@ public class ServiceDAO {
         }
         return serviceList;
     }
+
+
 }

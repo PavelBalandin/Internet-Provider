@@ -27,7 +27,7 @@
             </button>
         </div>
         <a href="/index.jsp">Home</a>
-        <p class="center-align red-text text-darken-2 warning__message">Error text*</p>
+        <p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
         <p class="center-align green-text text-darken-2 successful__message"></p>
     </form>
 </div>

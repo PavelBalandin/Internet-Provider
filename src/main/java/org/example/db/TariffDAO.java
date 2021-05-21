@@ -29,7 +29,7 @@ public class TariffDAO {
         }
 
         List<Tariff> tariffList = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getConnection()) {
+        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 String query = String.format(SELECT_TARIFFS_BY_SERVICE_ID, id, sortBy, sortHow);
                 try (ResultSet resultSet = statement.executeQuery(query)) {
