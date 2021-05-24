@@ -1,23 +1,15 @@
 package org.example.db;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public final class DBCPDataSource {
-    private static final BasicDataSource ds = new BasicDataSource();
+    private final BasicDataSource ds;
     private static DBCPDataSource instance;
-
-    static {
-        ds.setUrl("jdbc:postgresql://localhost:5432/InternetProvider");
-        ds.setUsername("postgres");
-        ds.setPassword("0147258");
-        ds.setMinIdle(5);
-        ds.setMaxIdle(10);
-        ds.setMaxOpenPreparedStatements(100);
-    }
+    private ResourceBundle rb;
 
     public static synchronized DBCPDataSource getInstance() {
         if (instance == null) {
@@ -26,9 +18,20 @@ public final class DBCPDataSource {
         return instance;
     }
 
+    private DBCPDataSource() {
+        rb = ResourceBundle.getBundle("application");
+        ds = new BasicDataSource();
+        ds.setUrl(rb.getString("connection.url"));
+        ds.setUsername(rb.getString("connection.username"));
+        ds.setPassword(rb.getString("connection.password"));
+        ds.setMinIdle(Integer.parseInt(rb.getString("connection.minIdle")));
+        ds.setMaxIdle(Integer.parseInt(rb.getString("connection.maxIdle")));
+        ds.setMaxOpenPreparedStatements(Integer.parseInt(rb.getString("connection.maxOpenPreparedStatements")));
+    }
+
     public Connection getConnection() throws SQLException {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(rb.getString("connection.driver"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -36,9 +39,6 @@ public final class DBCPDataSource {
         connection.setAutoCommit(false);
         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         return connection;
-    }
-
-    private DBCPDataSource() {
     }
 
     public void commitAndClose(Connection con) {
