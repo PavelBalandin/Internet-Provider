@@ -1,24 +1,27 @@
 package org.example.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account extends BaseEntity {
 
     private static final long serialVersionUID = -3033716424295738795L;
 
-    private Integer payment;
+    private BigDecimal payment;
 
     private int userId;
 
-    public Account(Long id) {
+    public Account(Long id, BigDecimal payment, int userId) {
         super(id);
+        this.payment = payment;
+        this.userId = userId;
     }
 
-    public Integer getPayment() {
+    public BigDecimal getPayment() {
         return payment;
     }
 
-    public void setPayment(Integer payment) {
+    public void setPayment(BigDecimal payment) {
         this.payment = payment;
     }
 

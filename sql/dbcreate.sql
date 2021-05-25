@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
 CREATE TABLE roles
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL UNIQUE
 );
 
@@ -12,7 +12,7 @@ CREATE TABLE roles
 ----------------------------------------------------------------
 CREATE TABLE statuses
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL UNIQUE
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE statuses
 ----------------------------------------------------------------
 CREATE TABLE users
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     login VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     firstname VARCHAR(30) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE users
 ----------------------------------------------------------------
 CREATE TABLE services
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL UNIQUE
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE services
 ----------------------------------------------------------------
 CREATE TABLE tariffs
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL UNIQUE,
     description VARCHAR(200) NOT NULL,
     duration VARCHAR(30) NOT NULL,
@@ -57,8 +57,8 @@ CREATE TABLE tariffs
 ----------------------------------------------------------------
 CREATE TABLE accounts
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
-    payment INTEGER NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
+    payment NUMERIC(15,2) NOT NULL,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
