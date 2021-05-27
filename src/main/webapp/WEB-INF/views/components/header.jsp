@@ -1,9 +1,23 @@
 <header>
     <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">Internet Provider</a>
+            <a href="/" class="brand-logo">Internet Provider</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="${pageContext.request.contextPath}/InternetProvider/service">Services</a></li>
+                <li><a href="${pageContext.request.contextPath}/InternetProvider/getServiceList">Services</a></li>
+                <li>
+                    <a class="dropdown-trigger"
+                       href="/admin_page.jsp"
+                       data-target="dropdown1">
+                        ${sessionScope.role.equals("ADMIN") ? "Admin page" : ""}
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-trigger"
+                       href="/user_page.jsp"
+                       data-target="dropdown1">
+                        ${sessionScope.role.equals("USER") ? "USER page" : ""}
+                    </a>
+                </li>
                 <li> ${sessionScope.login != null ? sessionScope.login : ""}</li>
                 <li>
                     <a class="dropdown-trigger"

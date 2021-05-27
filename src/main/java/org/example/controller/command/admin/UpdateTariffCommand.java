@@ -1,5 +1,7 @@
-package org.example.controller.command;
+package org.example.controller.command.admin;
 
+import org.apache.log4j.Logger;
+import org.example.controller.command.Command;
 import org.example.model.entity.Service;
 import org.example.model.entity.Tariff;
 import org.example.model.service.ServiceService;
@@ -10,6 +12,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class UpdateTariffCommand implements Command {
+
+    private static final Logger logger = Logger.getLogger(UpdateTariffCommand.class);
+
     private final TariffService tariffService;
     private final ServiceService serviceService;
 
@@ -20,6 +25,8 @@ public class UpdateTariffCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.debug("Command starts");
+
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
@@ -36,21 +43,54 @@ public class UpdateTariffCommand implements Command {
                 || duration == null || duration.equals("") || !duration.matches("[0-9]+")
                 || serviceId == null || serviceId.equals("")
         ) {
+            String page = request.getParameter("page");
+            if (page == null) {
+                page = "0";
+            }
+
+            String size = request.getParameter("size");
+            if (size == null) {
+                size = "5";
+            }
+
             errorMessage = "Please fill all fields correctly";
+            logger.error(errorMessage);
+
             request.setAttribute("errorMessage", errorMessage);
-            List<Tariff> tariffs = tariffService.getAllTariffs();
+            List<Tariff> tariffs = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
             List<Service> services = serviceService.getAllServices();
             request.setAttribute("tariffs", tariffs);
             request.setAttribute("services", services);
             return "/WEB-INF/views/admin/edit_tariff_page.jsp";
         }
 
-        tariffService.updateTariff(Integer.parseInt(id), name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
+        try {
+            tariffService.updateTariff(Integer.parseInt(id), name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
+            request.setAttribute("successMessage", "Tariff has been updated successfully");
+            logger.trace("Tariff has been updated");
+        } catch (RuntimeException ex) {
+            logger.error(ex.getMessage());
+            errorMessage = "Tariff hasn't been changed";
+            request.setAttribute("errorMessage", errorMessage);
+        }
 
-        List<Tariff> tariffs = tariffService.getAllTariffs();
+
+        String page = request.getParameter("page");
+        if (page == null) {
+            page = "0";
+        }
+
+        String size = request.getParameter("size");
+        if (size == null) {
+            size = "5";
+        }
+
+        List<Tariff> tariffs = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
         List<Service> services = serviceService.getAllServices();
         request.setAttribute("tariffs", tariffs);
         request.setAttribute("services", services);
+
+        logger.debug("Commands finished");
         return "/WEB-INF/views/admin/edit_tariff_page.jsp";
     }
 }

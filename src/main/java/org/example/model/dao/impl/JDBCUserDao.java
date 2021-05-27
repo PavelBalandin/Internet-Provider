@@ -1,7 +1,7 @@
 package org.example.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import org.example.controller.command.LoginCommand;
+import org.example.controller.command.common.LoginCommand;
 import org.example.model.dao.UserDao;
 import org.example.model.dao.mapper.RoleMapper;
 import org.example.model.dao.mapper.StatusMapper;

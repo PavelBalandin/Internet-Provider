@@ -11,7 +11,7 @@
 <div class="content">
     <%@ include file="/WEB-INF/views/admin/side_bar.jsp" %>
     <div class="main-content">
-        <form class="find-user" method="get" action="${pageContext.request.contextPath}/InternetProvider/get-user">
+        <form class="find-user" method="get" action="${pageContext.request.contextPath}/InternetProvider/getUser">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="login" type="text" class="validate" name="login">
@@ -34,7 +34,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <form method="post" action="${pageContext.request.contextPath}/InternetProvider/update-user">
+                    <form method="post" action="${pageContext.request.contextPath}/InternetProvider/updateUser">
                         <input type="text" name="id" value="${user.id}" hidden>
                         <tr>
                             <td>${user.login}</td>

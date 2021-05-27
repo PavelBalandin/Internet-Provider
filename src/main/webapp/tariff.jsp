@@ -8,9 +8,10 @@
 <body>
 <%@ include file="/WEB-INF/views/components/header.jsp" %>
 <div class="container">
-    <form class="sort_tariff_from" method="get" action="${pageContext.request.contextPath}/InternetProvider/tariff">
+    <form class="sort_tariff_from" method="get"
+          action="${pageContext.request.contextPath}/InternetProvider/getTariffListByService">
         <div class="input-field col s12">
-            <input type="hidden" name="id" value="${service_id}">
+            <input type="hidden" name="id" value="${serviceId}">
             <select name="sort">
                 <option value="name asc" ${sessionScope.sort.equals("name asc") ? "selected" : ""}>a-z</option>
                 <option value="name desc" ${sessionScope.sort.equals("name desc") ? "selected" : ""}>z-a</option>
@@ -48,11 +49,11 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/components/footer.jsp" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('select').formSelect();
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {constraint: true});
     });
 </script>
 </body>

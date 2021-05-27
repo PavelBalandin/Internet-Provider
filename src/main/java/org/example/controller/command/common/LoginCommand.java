@@ -1,6 +1,8 @@
-package org.example.controller.command;
+package org.example.controller.command.common;
 
 import org.apache.log4j.Logger;
+import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
@@ -18,6 +20,8 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.debug("Command starts");
+
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
@@ -46,10 +50,11 @@ public class LoginCommand implements Command {
             logger.trace(ERROR_MESSAGE + errorMessage);
             return "/login.jsp";
         }
-        System.out.println(user);
+
         CommandUtility.setUserRole(request, login, user.getRole().getName());
         logger.trace("User with " + login + " is logged in");
 
-        return "/index.jsp";
+        logger.debug("Commands finished");
+        return "redirect:/";
     }
 }

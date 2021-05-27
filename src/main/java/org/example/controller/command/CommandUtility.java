@@ -1,18 +1,17 @@
 package org.example.controller.command;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
-class CommandUtility {
-    static void setUserRole(HttpServletRequest request, String login, String role) {
+public class CommandUtility {
+    public static void setUserRole(HttpServletRequest request, String login, String role) {
         HttpSession session = request.getSession();
         session.setAttribute("login", login);
         session.setAttribute("role", role);
     }
 
-    static boolean checkUserIsLogged(HttpServletRequest request, String login) {
+    public static boolean checkUserIsLogged(HttpServletRequest request, String login) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext().getAttribute("loggedUsers");
 
         if (loggedUsers.stream().anyMatch(login::equals)) {
@@ -23,13 +22,13 @@ class CommandUtility {
         return false;
     }
 
-    static void destroyUserFromContext(HttpServletRequest request, String login) {
+    public static void destroyUserFromContext(HttpServletRequest request, String login) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext().getAttribute("loggedUsers");
         loggedUsers.remove(login);
         request.getSession().getServletContext().setAttribute("loggedUsers", loggedUsers);
     }
 
-    static void destroyUserFromSession(HttpServletRequest request) {
+    public static void destroyUserFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null)
             session.invalidate();

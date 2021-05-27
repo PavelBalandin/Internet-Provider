@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="registration">
-    <form method="post" action="${pageContext.request.contextPath}/InternetProvider/registration">
+    <form method="post" action="${pageContext.request.contextPath}/InternetProvider/createUser">
         <p class="center-align title">Registration</p>
         <div class="row">
             <div class="input-field col s12">

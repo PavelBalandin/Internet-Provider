@@ -26,7 +26,7 @@
 
                 <tbody>
                 <c:forEach var="tariff" items="${tariffs}">
-                    <form method="get" action="${pageContext.request.contextPath}/InternetProvider/update-tariff">
+                    <form method="get" action="${pageContext.request.contextPath}/InternetProvider/updateTariff">
                         <tr>
                             <input type="text" name="id" value="${tariff.id}" hidden>
                             <td><input name="name" type="text" value="${tariff.name}"></td>
@@ -36,7 +36,7 @@
                             <td>
                                 <select name="serviceId">
                                     <c:forEach var="service" items="${services}">
-                                        <option value="${tariff.service.id}" ${tariff.service.name.equals(service.name) ? "selected" : ""}>
+                                        <option value="${service.id}" ${tariff.service.name.equals(service.name) ? "selected" : ""}>
                                                 ${service.name}
                                         </option>
                                     </c:forEach>
@@ -46,7 +46,7 @@
                                 <button class="btn-small" type="submit">update</button>
                             </td>
                     </form>
-                    <form method="get" action="${pageContext.request.contextPath}/InternetProvider/delete-tariff">
+                    <form method="get" action="${pageContext.request.contextPath}/InternetProvider/deleteTariff">
                         <td>
                             <input type="text" name="id" value="${tariff.id}" hidden>
                             <button class="btn-small" type="submit">delete</button>
@@ -54,7 +54,7 @@
                     </form>
                     </tr>
                 </c:forEach>
-                <form method="post" action="${pageContext.request.contextPath}/InternetProvider/add-tariff">
+                <form method="post" action="${pageContext.request.contextPath}/InternetProvider/createTariff">
                     <tr>
                         <td><input name="name" type="text"></td>
                         <td><input name="description" type="text"></td>
@@ -79,13 +79,13 @@
             <div class="tariff-pagination">
                 <ul class="pagination">
                     <li class="active"><a
-                            href="${pageContext.request.contextPath}/InternetProvider/edit-tariff?page=0&size=5">1</a>
+                            href="${pageContext.request.contextPath}/InternetProvider/getTariffList?page=0&size=5">1</a>
                     </li>
                     <li class="waves-effect"><a
-                            href="${pageContext.request.contextPath}/InternetProvider/edit-tariff?page=1&size=5">2</a>
+                            href="${pageContext.request.contextPath}/InternetProvider/getTariffList?page=1&size=5">2</a>
                     </li>
                     <li class="waves-effect"><a
-                            href="${pageContext.request.contextPath}/InternetProvider/edit-tariff?page=2&size=5">3</a>
+                            href="${pageContext.request.contextPath}/InternetProvider/getTariffList?page=2&size=5">3</a>
                     </li>
 
                 </ul>

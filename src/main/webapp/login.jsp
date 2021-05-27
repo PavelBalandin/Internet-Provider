@@ -26,7 +26,7 @@
                 <i class="material-icons right">send</i>
             </button>
         </div>
-        <a href="/index.jsp">Home</a>
+        <a href="/">Home</a>
         <p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
         <p class="center-align green-text text-darken-2 successful__message"></p>
     </form>

@@ -11,7 +11,7 @@
 <div class="content">
     <%@ include file="/WEB-INF/views/admin/side_bar.jsp" %>
     <div class="main-content">
-        <form method="post" action="${pageContext.request.contextPath}/InternetProvider/add-user">
+        <form method="post" action="${pageContext.request.contextPath}/InternetProvider/createUser">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="login" type="text" class="validate" name="login">

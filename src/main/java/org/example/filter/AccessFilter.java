@@ -1,7 +1,5 @@
 package org.example.filter;
 
-import org.example.model.entity.Role;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,22 +9,21 @@ import java.util.*;
 public class AccessFilter implements Filter {
     private static final String URL_PATTERN = ".*/InternetProvider/";
 
-    private static List<String> common = new ArrayList<String>();
-    private static List<String> guest = new ArrayList<String>();
-    private static Map<String, List<String>> accessMap = new HashMap<String, List<String>>();
+    private static final List<String> common = new ArrayList<>();
+    private static final List<String> guest = new ArrayList<>();
+    private static final Map<String, List<String>> accessMap = new HashMap<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        common.add("/");
-        common.add("service");
-        common.add("tariff");
-        common.add("/user_registration.jsp");
-        guest.add("/login.jsp");
-        guest.add("login");
+        common.addAll(
+                Arrays.asList("/", "/user_registration.jsp", "/css/main.css", "getServiceList", "getTariffListByService"));
+        guest.addAll(
+                Arrays.asList("/login.jsp", "login"));
         accessMap.put("ADMIN",
-                Arrays.asList("logout", "admin", "add-user", "update-user", "edit-tariff", "create-tariff", "update-tariff", "delete-tariff"));
+                Arrays.asList("/admin_page.jsp", "logout", "getUser", "createUser", "updateUser",
+                        "getTariffList", "createTariff", "updateTariff", "deleteTariff"));
         accessMap.put("USER",
-                Arrays.asList("logout", "user", "add-to-order", "make-order", "up-balance"));
+                Arrays.asList("/user_page.jsp", "logout", "createOrder", "upBalance"));
     }
 
     @Override
@@ -34,7 +31,7 @@ public class AccessFilter implements Filter {
         if (accessAllowed(request)) {
             chain.doFilter(request, response);
         } else {
-            String errorMessage = "You do not have permission to access the requested resource";
+            String errorMessage = "You don't have permission to access the requested resource";
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("/error.jsp")
                     .forward(request, response);
@@ -62,12 +59,9 @@ public class AccessFilter implements Filter {
             return false;
 
         String userRole = (String) session.getAttribute("role");
-        System.out.println("user role => " + userRole);
         if (userRole == null) {
             return guest.contains(commandName);
         }
-
-        System.out.println("access => ");
 
         return accessMap.get(userRole).contains(commandName);
 

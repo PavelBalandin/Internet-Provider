@@ -1,18 +1,25 @@
-package org.example.controller.command;
+package org.example.controller.command.common;
 
 import org.apache.log4j.Logger;
+import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LogOutCommand implements Command {
-    private static final Logger logger = Logger.getLogger(LoginCommand.class);
+    private static final Logger logger = Logger.getLogger(LogOutCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.debug("Command starts");
         String login = (String) request.getSession().getAttribute("login");
+
         CommandUtility.destroyUserFromContext(request, login);
         CommandUtility.destroyUserFromSession(request);
+
         logger.trace("User with " + login + " is logged out");
-        return "/index.jsp";
+
+        logger.debug("Commands finished");
+        return "redirect:/";
     }
 }

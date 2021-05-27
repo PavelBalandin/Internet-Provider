@@ -1,6 +1,7 @@
-package org.example.controller.command;
+package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
+import org.example.controller.command.Command;
 import org.example.model.entity.Status;
 import org.example.model.entity.User;
 import org.example.model.service.UserService;
@@ -11,8 +12,6 @@ public class UpdateUserCommand implements Command {
 
     private static final Logger logger = Logger.getLogger(UpdateUserCommand.class);
 
-    private static final String ERROR_MESSAGE = "Error message: ";
-
     private final UserService userService;
 
     public UpdateUserCommand(UserService userService) {
@@ -21,6 +20,8 @@ public class UpdateUserCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.debug("Command starts");
+
         String errorMessage = null;
 
         String id = request.getParameter("id");
@@ -30,23 +31,21 @@ public class UpdateUserCommand implements Command {
         if (id == null || id.equals("") || statusId == null || statusId.equals("")) {
             errorMessage = "Please fill all fields";
             request.setAttribute("errorMessage", errorMessage);
+            logger.error("Validation: " + errorMessage);
             return "/WEB-INF/views/admin/update_user_page.jsp";
         }
 
-        Status stat = new Status();
-        stat.setId(Integer.valueOf(statusId));
-        User user = new User.Builder()
-                .withId(Integer.parseInt(id))
-                .withStatus(stat)
-                .build();
-
-        if (userService.updateUser(user)) {
+        try {
+            userService.updateUser(Integer.parseInt(id), Integer.valueOf(statusId));
             request.setAttribute("successMessage", "User has been updated successfully");
-        } else {
+            logger.trace("User has been updated successfully");
+        } catch (RuntimeException ex) {
+            logger.error(ex.getMessage());
             errorMessage = "User hasn't been changed";
             request.setAttribute("errorMessage", errorMessage);
         }
 
+        logger.debug("Commands finished");
         return "/WEB-INF/views/admin/update_user_page.jsp";
     }
 }

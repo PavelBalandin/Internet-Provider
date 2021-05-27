@@ -20,15 +20,10 @@
         <param-value>ua en</param-value>
     </context-param>
 
-    <!--    <filter>-->
-    <!--        <filter-name>AccessFilter</filter-name>-->
-    <!--        <filter-class>org.example.filter.AccessFilter</filter-class>-->
-    <!--    </filter>-->
-
-    <!--    <filter-mapping>-->
-    <!--        <filter-name>AccessFilter</filter-name>-->
-    <!--        <url-pattern>/*</url-pattern>-->
-    <!--    </filter-mapping>-->
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>org.example.filter.AccessFilter</filter-class>
+    </filter>
 
     <filter>
         <filter-name>EncodingFilter</filter-name>
@@ -36,18 +31,22 @@
     </filter>
 
     <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
     <servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>org.example.controller.Controller</servlet-class>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>org.example.controller.Servlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
+        <servlet-name>Servlet</servlet-name>
         <url-pattern>/InternetProvider/*</url-pattern>
     </servlet-mapping>
 

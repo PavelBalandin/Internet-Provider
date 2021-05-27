@@ -23,7 +23,8 @@
             <c:forEach var="service" items="${serviceList}">
                 <tr>
                     <td>${service.name}</td>
-                    <td><a href="${pageContext.request.contextPath}/InternetProvider/tariff?id=${service.id}">More</a>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/InternetProvider/getTariffListByService?id=${service.id}">More</a>
                     </td>
                 </tr>
             </c:forEach>

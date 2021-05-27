@@ -21,7 +21,7 @@ public class UserService {
         }
     }
 
-    public boolean createUser(String name, String password, String firstname, String lastname) {
+    public void createUser(String name, String password, String firstname, String lastname) {
         User user = new User();
         user.setLogin(name);
         user.setPassword(password);
@@ -30,19 +30,19 @@ public class UserService {
 
         try (UserDao dao = daoFactory.createUserDao()) {
             dao.create(user);
-            return true;
-        } catch (RuntimeException exception) {
-            return false;
         }
     }
 
-    public boolean updateUser(User user) {
+    public void updateUser(int id, int statusId) {
+        Status status = new Status();
+        status.setId(statusId);
+
+        User user = new User.Builder()
+                .withId(id)
+                .withStatus(status)
+                .build();
         try (UserDao dao = daoFactory.createUserDao()) {
             dao.update(user);
-            return true;
-        } catch (RuntimeException exception) {
-            System.out.println(exception.getMessage());
-            return false;
         }
     }
 }
