@@ -45,10 +45,10 @@ CREATE TABLE services
 CREATE TABLE tariffs
 (
     id SERIAL NOT NULL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
     description VARCHAR(200) NOT NULL,
     duration VARCHAR(30) NOT NULL,
-    price INTEGER NOT NULL,
+    price NUMERIC(19,2) NOT NULL,
     service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE tariffs
 CREATE TABLE accounts
 (
     id SERIAL NOT NULL PRIMARY KEY,
-    payment NUMERIC(15,2) NOT NULL,
+    payment NUMERIC(19,2) NOT NULL,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 

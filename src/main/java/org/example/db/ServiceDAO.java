@@ -1,6 +1,6 @@
 package org.example.db;
 
-import org.example.model.Service;
+import org.example.model.entity.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,25 +22,25 @@ public class ServiceDAO {
 
     private static final String DELETE_SERVICE = "DELETE FROM SERVICES WHERE id = ?;";
 
-    public List<Service> getServices() {
-        List<Service> serviceList = new ArrayList<>();
-        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                try (ResultSet resultSet = statement.executeQuery(SELECT_SERVICES)) {
-                    while (resultSet.next()) {
-                        Service service = new Service(
-                                (long) resultSet.getInt("id"),
-                                resultSet.getString("name")
-                        );
-                        serviceList.add(service);
-                    }
-                }
-            }
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
-        return serviceList;
-    }
+//    public List<Service> getServices() {
+//        List<Service> serviceList = new ArrayList<>();
+//        try (Connection connection = DBCPDataSource.getInstance().getConnection()) {
+//            try (Statement statement = connection.createStatement()) {
+//                try (ResultSet resultSet = statement.executeQuery(SELECT_SERVICES)) {
+//                    while (resultSet.next()) {
+//                        Service service = new Service(
+//                                (long) resultSet.getInt("id"),
+//                                resultSet.getString("name")
+//                        );
+//                        serviceList.add(service);
+//                    }
+//                }
+//            }
+//        } catch (SQLException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//        return serviceList;
+//    }
 
 
 }

@@ -8,8 +8,6 @@ import java.util.HashSet;
 class CommandUtility {
     static void setUserRole(HttpServletRequest request, String login, String role) {
         HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        context.setAttribute("login", login);
         session.setAttribute("login", login);
         session.setAttribute("role", role);
     }

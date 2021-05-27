@@ -61,3 +61,72 @@
     justify-content: center;
     margin: 20px 0;
 }
+
+/* ====== ERROR PAGE ====== */
+
+
+/* ====== ADMIN PAGE ====== */
+.content {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.main-content {
+    width: 90%;
+    padding: 0 20px;
+}
+
+
+/* ====== ADMIN SIDE BAR ====== */
+.admin-side-bar {
+    width: 10%;
+    background-color: #fff;
+    height: calc(100vh - 64px);
+}
+
+.admin-side-bar ul {
+    flex-direction: column;
+}
+
+.admin-side-bar li {
+    width: 100%;
+}
+
+.admin-side-bar a {
+    width: 100%;
+    color: #212121;
+}
+
+
+/* ====== ADD USER PAGE ====== */
+
+/* ====== UPDATE USER PAGE ====== */
+.find-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.find-user .row {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.find-user input {
+    width: 100%;
+}
+
+select {
+    display: block;
+}
+
+/* ====== ADMIN TARIFF PAGE ====== */
+.edit-tariff-page button {
+    width: 100%;
+}
+
+.tariff-pagination {
+    display: flex;
+    justify-content: center;
+}

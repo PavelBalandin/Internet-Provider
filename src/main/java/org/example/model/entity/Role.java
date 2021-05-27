@@ -1,12 +1,12 @@
-package org.example.model;
+package org.example.model.entity;
 
 import java.util.Objects;
 
-public class Service extends BaseEntity {
+public class Role extends BaseEntity {
 
-    private static final long serialVersionUID = -8917770357656970028L;
+    private static final long serialVersionUID = -1583985772571099512L;
 
-    String name;
+    private String name;
 
     public String getName() {
         return name;
@@ -16,17 +16,12 @@ public class Service extends BaseEntity {
         this.name = name;
     }
 
-    public Service(Long id, String name) {
-        super(id);
-        this.name = name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Service service = (Service) o;
-        return Objects.equals(name, service.name);
+        Role role = (Role) o;
+        return Objects.equals(name, role.name);
     }
 
     @Override
@@ -36,8 +31,6 @@ public class Service extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Service{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }
