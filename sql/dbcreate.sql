@@ -53,13 +53,14 @@ CREATE TABLE tariffs
 );
 
 ----------------------------------------------------------------
--- ACCOUNTS
+-- payments
 ----------------------------------------------------------------
-CREATE TABLE accounts
+CREATE TABLE payments
 (
     id SERIAL NOT NULL PRIMARY KEY,
     payment NUMERIC(19,2) NOT NULL,
-    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    payment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
 );
 
 ----------------------------------------------------------------
@@ -116,3 +117,42 @@ INSERT INTO user_tariff VALUES(2,6, current_date, current_date + interval '30 da
 INSERT INTO user_tariff VALUES(3,7, current_date, current_date + interval '30 days');
 INSERT INTO user_tariff VALUES(4,10, current_date, current_date + interval '30 days');
 INSERT INTO user_tariff VALUES(4,11, current_date, current_date + interval '30 days');
+
+INSERT INTO payments VALUES(DEFAULT, 400, 2, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 100, 2, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 200, 2, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 2000, 3, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 400, 3, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 100, 3, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 200, 3, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 200, 4, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 200, 4, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 200, 4, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 600, 5, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 600, 5, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 600, 5, DEFAULT);
+INSERT INTO payments VALUES(DEFAULT, 600, 5, DEFAULT);
+
+CREATE OR REPLACE FUNCTION make_order(varchar(30), int[])
+RETURNS numeric AS
+$$
+DECLARE
+user_id_f int;
+psum numeric;
+tsum numeric;
+tariff_id int;
+BEGIN
+SELECT u.id into user_id_f FROM users u where u.login = $1;
+SELECT sum(payment) into psum FROM payments p where p.user_id = user_id_f;
+SELECT sum(price) into tsum FROM tariffs t where t.id = ANY($2);
+IF psum - tsum >= 0 THEN
+  FOREACH tariff_id IN ARRAY $2
+  LOOP
+    INSERT INTO user_tariff VALUES(user_id_f, tariff_id, current_date, current_date + interval '1 month');
+  END LOOP;
+  INSERT INTO payments VALUES(DEFAULT, -tsum, user_id_f, DEFAULT);
+END IF;
+RETURN psum - tsum;
+END;
+$$
+LANGUAGE 'plpgsql'

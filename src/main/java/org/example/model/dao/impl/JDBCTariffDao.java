@@ -3,10 +3,8 @@ package org.example.model.dao.impl;
 import org.apache.log4j.Logger;
 import org.example.controller.command.common.LoginCommand;
 import org.example.model.dao.TariffDao;
-import org.example.model.dao.mapper.ServiceMapper;
-import org.example.model.dao.mapper.TariffMapper;
-import org.example.model.entity.Service;
-import org.example.model.entity.Tariff;
+import org.example.model.dao.mapper.*;
+import org.example.model.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +15,18 @@ import java.util.Map;
 public class JDBCTariffDao implements TariffDao {
 
     private final String SELECT_TARIFFS = "SELECT * FROM TARIFFS;";
-    private final String SELECT_TARIFFS_BY_ID = "SELECT * FROM TARIFFS WHERE id = ?;";
+    private final String SELECT_TARIFFS_BY_ID =
+            "SELECT t.*, s.id as serviceid, s.name as servicename " +
+                    "FROM tariffs t JOIN services s ON t.service_id = s.id " +
+                    "WHERE t.id = ?;";
+
+    private final String SELECT_TARIFFS_BY_LOGIN = "SELECT t.*, ut.date_begin, ut.date_end, " +
+            "s.id AS serviceid, s.name AS servicename  FROM users u \n" +
+            "JOIN user_tariff ut ON u.id = ut.user_id\n" +
+            "JOIN tariffs t ON t.id = ut.tariff_id\n" +
+            "JOIN services s ON s.id = t.service_id\n" +
+            "where u.login = ?;";
+
     private final String SELECT_TARIFFS_BY_SERVICE_ID = "SELECT * FROM TARIFFS WHERE service_id = %d ORDER BY %s %s;";
     private final String INSERT_TARIFFS = "INSERT INTO tariffs VALUES (DEFAULT, ?, ?, ?, ?, ?);";
     private final String UPDATE_TARIFFS = "UPDATE TARIFFS SET name  = ?, description = ?, duration = ?, price = ?, service_id = ?  WHERE id = ?;";
@@ -60,8 +69,30 @@ public class JDBCTariffDao implements TariffDao {
 
     @Override
     public Tariff findById(int id) {
-        return null;
+        Tariff tariff = null;
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_TARIFFS_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            TariffMapper tariffMapper = new TariffMapper();
+            ServiceMapper serviceMapper = new ServiceMapper();
+
+            if (rs.next()) {
+                tariff = tariffMapper
+                        .extractFromResultSet(rs);
+                Service service = serviceMapper
+                        .extractFromResultSet(rs);
+                tariff.setService(service);
+            }
+        } catch (SQLException ex) {
+            DBCPDataSource.rollbackAndClose(connection);
+            throw new RuntimeException(ex);
+        }
+
+        DBCPDataSource.commitAndClose(connection);
+        return tariff;
     }
+
 
     @Override
     public List<Tariff> findAllByServiceId(int id, String sort, String order) {
@@ -81,7 +112,7 @@ public class JDBCTariffDao implements TariffDao {
                 Tariff tariff = tariffMapper.extractFromResultSet(rs);
                 tariffs.add(tariff);
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             throw new RuntimeException(ex);
         }
@@ -119,6 +150,38 @@ public class JDBCTariffDao implements TariffDao {
             System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public List<Tariff> findTariffsByLogin(String login) {
+        Map<Integer, Service> services = new HashMap<>();
+        List<Tariff> tariffList = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_TARIFFS_BY_LOGIN)) {
+            ps.setString(1, login);
+
+            ResultSet rs = ps.executeQuery();
+
+            ServiceMapper serviceMapper = new ServiceMapper();
+            TariffMapper tariffMapper = new TariffMapper();
+
+            while (rs.next()) {
+                Service service = serviceMapper
+                        .extractFromResultSet(rs);
+                service = serviceMapper
+                        .makeUnique(services, service);
+                Tariff tariff = tariffMapper
+                        .extractFromResultSet(rs);
+                tariff.setService(service);
+
+                tariffList.add(tariff);
+            }
+        } catch (SQLException ex) {
+            DBCPDataSource.rollbackAndClose(connection);
+            throw new RuntimeException(ex);
+        }
+        DBCPDataSource.commitAndClose(connection);
+        return tariffList;
     }
 
     @Override

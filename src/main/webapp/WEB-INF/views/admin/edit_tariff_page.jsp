@@ -92,9 +92,6 @@
             </div>
             <p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
             <p class="center-align green-text text-darken-2 successful__message">${requestScope.get("successMessage")}</p>
-            <div class="plan_load">
-                <a href="">Завантажити перелік тарифних планів</a>
-            </div>
         </div>
     </div>
 </div>

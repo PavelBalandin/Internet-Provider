@@ -30,6 +30,9 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="plan_load">
+            <a href="">Download the full list of tariff plans</a>
+        </div>
     </div>
 </div>
 

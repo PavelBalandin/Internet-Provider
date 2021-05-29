@@ -6,17 +6,14 @@ import org.example.model.dao.UserDao;
 import org.example.model.dao.mapper.RoleMapper;
 import org.example.model.dao.mapper.StatusMapper;
 import org.example.model.dao.mapper.UserMapper;
-import org.example.model.entity.Payment;
-import org.example.model.entity.Role;
-import org.example.model.entity.Status;
-import org.example.model.entity.User;
+import org.example.model.entity.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JDBCUserDao implements UserDao {
 
@@ -32,6 +29,9 @@ public class JDBCUserDao implements UserDao {
     private final String UPDATE_USER = "UPDATE USERS SET status_id = ? WHERE id = ?;";
     private final String DELETE_USER = "DELETE FROM USERS WHERE id = ?;";
     private final String DELETE_USER_BY_LOGIN = "DELETE FROM USERS WHERE login = ?;";
+
+    private final String MAKE_ORDER = "SELECT make_order(? , ?);";
+
 
     private final Logger logger = Logger.getLogger(LoginCommand.class);
 
@@ -109,6 +109,25 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void delete(int id) {
 
+    }
+
+    @Override
+    public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
+        try (PreparedStatement ps = connection.prepareStatement(MAKE_ORDER)) {
+            Array sqlArray = connection.createArrayOf("INTEGER", tariffList.stream().map(BaseEntity::getId).collect(Collectors.toList()).toArray());
+            ps.setString(1, userLogin);
+            ps.setArray(2, sqlArray);
+            ResultSet rs = ps.executeQuery();
+            BigDecimal reminder = new BigDecimal("-1");
+            if (rs.next()) {
+                reminder = rs.getBigDecimal("make_order");
+                DBCPDataSource.commitAndClose(connection);
+            }
+            return reminder;
+        } catch (SQLException ex) {
+            DBCPDataSource.rollbackAndClose(connection);
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override

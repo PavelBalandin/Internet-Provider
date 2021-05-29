@@ -11,6 +11,8 @@ public abstract class DaoFactory {
 
     public abstract TariffDao createTariffDao();
 
+    public abstract PaymentDao createPaymentDao();
+
     public static DaoFactory getInstance() {
         if (daoFactory == null) {
             synchronized (DaoFactory.class) {

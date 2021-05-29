@@ -23,7 +23,8 @@ public class AccessFilter implements Filter {
                 Arrays.asList("/admin_page.jsp", "logout", "getUser", "createUser", "updateUser",
                         "getTariffList", "createTariff", "updateTariff", "deleteTariff"));
         accessMap.put("USER",
-                Arrays.asList("/user_page.jsp", "logout", "createOrder", "upBalance"));
+                Arrays.asList("logout", "getUserOrderPage", "getAddFundsPage", "getUserPaymentListPage",
+                        "addTariffToOrder", "deleteTariffFromOrder", "makeOrder", "createPayment", "getUserTariffListPage"));
     }
 
     @Override

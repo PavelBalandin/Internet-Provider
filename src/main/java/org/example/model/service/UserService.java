@@ -3,7 +3,11 @@ package org.example.model.service;
 import org.example.model.dao.DaoFactory;
 import org.example.model.dao.UserDao;
 import org.example.model.entity.Status;
+import org.example.model.entity.Tariff;
 import org.example.model.entity.User;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class UserService {
 
@@ -43,6 +47,12 @@ public class UserService {
                 .build();
         try (UserDao dao = daoFactory.createUserDao()) {
             dao.update(user);
+        }
+    }
+
+    public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
+        try (UserDao dao = daoFactory.createUserDao()) {
+            return dao.makeOrder(userLogin, tariffList);
         }
     }
 }

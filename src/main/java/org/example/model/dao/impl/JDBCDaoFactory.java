@@ -1,9 +1,6 @@
 package org.example.model.dao.impl;
 
-import org.example.model.dao.DaoFactory;
-import org.example.model.dao.ServiceDao;
-import org.example.model.dao.TariffDao;
-import org.example.model.dao.UserDao;
+import org.example.model.dao.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,6 +22,11 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public TariffDao createTariffDao() {
         return new JDBCTariffDao(getConnection());
+    }
+
+    @Override
+    public PaymentDao createPaymentDao() {
+        return new JDBSPaymentDao(getConnection());
     }
 
     private Connection getConnection() {

@@ -38,14 +38,12 @@
                     <td>${tariff.name}</td>
                     <td>${tariff.description}</td>
                     <td>${tariff.price} грн / ${tariff.duration} днів</td>
-                    <td><a href="index.jsp">Придбати</a></td>
+                    <td><a href="${pageContext.request.contextPath}/InternetProvider/addTariffToOrder?id=${tariff.id}">Придбати</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <div class="plan_load">
-            <a href="">Завантажити перелік тарифних планів</a>
-        </div>
     </div>
 </div>
 <%@ include file="/WEB-INF/views/components/footer.jsp" %>

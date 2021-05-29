@@ -1,24 +1,13 @@
 <header>
     <nav>
         <div class="nav-wrapper">
-            <a href="/" class="brand-logo">Internet Provider</a>
+            <a href="${pageContext.request.contextPath}/InternetProvider/getServiceList" class="brand-logo">Internet Provider</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="${pageContext.request.contextPath}/InternetProvider/getServiceList">Services</a></li>
-                <li>
-                    <a class="dropdown-trigger"
-                       href="/admin_page.jsp"
-                       data-target="dropdown1">
-                        ${sessionScope.role.equals("ADMIN") ? "Admin page" : ""}
-                    </a>
+                <li><a href="/InternetProvider/${sessionScope.role.equals("USER") ? "getUserOrderPage" : "createUser"}">
+                    ${sessionScope.login != null ? sessionScope.login : ""}
+                </a>
                 </li>
-                <li>
-                    <a class="dropdown-trigger"
-                       href="/user_page.jsp"
-                       data-target="dropdown1">
-                        ${sessionScope.role.equals("USER") ? "USER page" : ""}
-                    </a>
-                </li>
-                <li> ${sessionScope.login != null ? sessionScope.login : ""}</li>
                 <li>
                     <a class="dropdown-trigger"
                        href="${sessionScope.login != null ? "/InternetProvider/logout" : "/login.jsp"}"

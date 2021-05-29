@@ -24,6 +24,12 @@ public class TariffService {
         }
     }
 
+    public List<Tariff> getTariffsByUserLogin(String login) {
+        try (TariffDao dao = daoFactory.createTariffDao()) {
+            return dao.findTariffsByLogin(login);
+        }
+    }
+
     public List<Tariff> getPaginated(int page, int size) {
         try (TariffDao dao = daoFactory.createTariffDao()) {
             return dao.findPaginated(page, size);

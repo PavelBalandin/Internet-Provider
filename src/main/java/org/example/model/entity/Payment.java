@@ -12,7 +12,8 @@ public class Payment extends BaseEntity {
 
     private User user;
 
-    private LocalDateTime data;
+
+    private LocalDateTime dateTime;
 
     public BigDecimal getPayment() {
         return payment;
@@ -30,12 +31,13 @@ public class Payment extends BaseEntity {
         this.user = user;
     }
 
-    public LocalDateTime getData() {
-        return data;
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     @Override
@@ -45,12 +47,12 @@ public class Payment extends BaseEntity {
         Payment payment1 = (Payment) o;
         return Objects.equals(payment, payment1.payment) &&
                 Objects.equals(user, payment1.user) &&
-                Objects.equals(data, payment1.data);
+                Objects.equals(dateTime, payment1.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(payment, user, data);
+        return Objects.hash(payment, user, dateTime);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class Payment extends BaseEntity {
         return "Payment{" +
                 "payment=" + payment +
                 ", user=" + user +
-                ", data=" + data +
+                ", dateTime=" + dateTime +
                 '}';
     }
 }

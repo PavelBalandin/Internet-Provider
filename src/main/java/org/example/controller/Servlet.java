@@ -7,6 +7,8 @@ import org.example.controller.command.common.GetServiceListCommand;
 import org.example.controller.command.common.GetTariffListByServiceCommand;
 import org.example.controller.command.common.LogOutCommand;
 import org.example.controller.command.common.LoginCommand;
+import org.example.controller.command.user.*;
+import org.example.model.service.PaymentService;
 import org.example.model.service.ServiceService;
 import org.example.model.service.TariffService;
 import org.example.model.service.UserService;
@@ -77,5 +79,14 @@ public class Servlet extends HttpServlet {
         commands.put("createTariff", new CreateTariffCommand(new TariffService(), new ServiceService()));
         commands.put("updateTariff", new UpdateTariffCommand(new TariffService(), new ServiceService()));
         commands.put("deleteTariff", new DeleteTariffCommand(new TariffService(), new ServiceService()));
+
+        commands.put("getUserOrderPage", new GetUserOrderPageCommand());
+        commands.put("getAddFundsPage", new GetAddFundsPageCommand());
+        commands.put("getUserPaymentListPage", new GetUserPaymentListPageCommand(new PaymentService()));
+        commands.put("addTariffToOrder", new AddTariffToOrderCommand(new TariffService()));
+        commands.put("deleteTariffFromOrder", new DeleteTariffFromOrderCommand(new TariffService()));
+        commands.put("makeOrder", new MakeOrderCommand(new UserService(), new TariffService()));
+        commands.put("createPayment", new CreatePaymentCommand(new PaymentService()));
+        commands.put("getUserTariffListPage", new GetUserTariffListPageCommand(new TariffService()));
     }
 }
