@@ -3,6 +3,8 @@ package org.example.controller.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class CommandUtility {
     public static void setUserRole(HttpServletRequest request, String login, String role) {
@@ -32,5 +34,13 @@ public class CommandUtility {
         HttpSession session = request.getSession(false);
         if (session != null)
             session.invalidate();
+    }
+
+    public static ResourceBundle setResourceBundle(HttpServletRequest request) {
+        String locale = (String) request.getSession().getAttribute("sessionLocale");
+        if (locale == null) {
+            locale = "ua";
+        }
+        return ResourceBundle.getBundle("resources", new Locale(locale));
     }
 }

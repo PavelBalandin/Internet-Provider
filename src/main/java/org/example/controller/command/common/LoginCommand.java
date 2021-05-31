@@ -7,12 +7,17 @@ import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class LoginCommand implements Command {
     private static final Logger logger = Logger.getLogger(LoginCommand.class);
-    private static final String ERROR_MESSAGE = "Error message: ";
+    private static final String ERROR_TAG = "Error tag: ";
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String LOGIN_PAGE = "/login.jsp";
 
     private final UserService userService;
+    private ResourceBundle rb;
 
     public LoginCommand(UserService userService) {
         this.userService = userService;
@@ -21,34 +26,30 @@ public class LoginCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         logger.debug("Command starts");
+        rb = CommandUtility.setResourceBundle(request);
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
         logger.trace("User with login " + login + " is logging");
 
-        String errorMessage = null;
-
         if (login == null || login.equals("") || password == null || password.equals("")) {
-            errorMessage = "Please enter your login and password";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.trace(ERROR_MESSAGE + errorMessage);
-            return "/login.jsp";
+            request.setAttribute(ERROR_MESSAGE, rb.getString("fill.fields"));
+            logger.trace(ERROR_TAG + rb.getString("fill.fields"));
+            return LOGIN_PAGE;
         }
 
         User user = userService.getUserByLogin(login);
         if (user == null || !user.getPassword().equals(password)) {
-            errorMessage = "Incorrect username or password";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.trace(ERROR_MESSAGE + errorMessage);
-            return "/login.jsp";
+            request.setAttribute(ERROR_MESSAGE, rb.getString("incorrect.login.or.password"));
+            logger.trace(ERROR_TAG + rb.getString("incorrect.login.or.password"));
+            return LOGIN_PAGE;
         }
 
         if (CommandUtility.checkUserIsLogged(request, login)) {
-            errorMessage = "You must finish session on another device";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.trace(ERROR_MESSAGE + errorMessage);
-            return "/login.jsp";
+            request.setAttribute(ERROR_MESSAGE, rb.getString("unfinished.session"));
+            logger.trace(ERROR_TAG + rb.getString("unfinished.session"));
+            return LOGIN_PAGE;
         }
 
         CommandUtility.setUserRole(request, login, user.getRole().getName());

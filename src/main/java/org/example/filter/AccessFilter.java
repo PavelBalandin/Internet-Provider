@@ -16,7 +16,8 @@ public class AccessFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         common.addAll(
-                Arrays.asList("/", "/user_registration.jsp", "/css/main.css", "getServiceList", "getTariffListByService"));
+                Arrays.asList("/", "/user_registration.jsp", "/css/main.css", "getServiceList",
+                        "getTariffListByService", "changeLocale"));
         guest.addAll(
                 Arrays.asList("/login.jsp", "login"));
         accessMap.put("ADMIN",

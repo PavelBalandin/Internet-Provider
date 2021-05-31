@@ -3,10 +3,7 @@ package org.example.controller;
 import org.apache.log4j.Logger;
 import org.example.controller.command.*;
 import org.example.controller.command.admin.*;
-import org.example.controller.command.common.GetServiceListCommand;
-import org.example.controller.command.common.GetTariffListByServiceCommand;
-import org.example.controller.command.common.LogOutCommand;
-import org.example.controller.command.common.LoginCommand;
+import org.example.controller.command.common.*;
 import org.example.controller.command.user.*;
 import org.example.model.service.PaymentService;
 import org.example.model.service.ServiceService;
@@ -70,6 +67,7 @@ public class Servlet extends HttpServlet {
         commands.put("/", new GetServiceListCommand(new ServiceService()));
         commands.put("getServiceList", new GetServiceListCommand(new ServiceService()));
         commands.put("getTariffListByService", new GetTariffListByServiceCommand(new TariffService()));
+        commands.put("changeLocale", new ChangeLocaleCommand());
 
         commands.put("getUser", new GetUserCommand(new UserService()));
         commands.put("createUser", new CreateUserCommand(new UserService()));
