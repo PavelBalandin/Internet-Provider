@@ -11,9 +11,9 @@ public class ServiceService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public List<Service> getAllServices() {
-        try (ServiceDAO dao = daoFactory.createServiceDao()) {
-            return dao.findAll();
-        }
+        ServiceDAO dao = daoFactory.createServiceDao();
+        return dao.findAll();
+
     }
 
 }

@@ -128,10 +128,4 @@ public class UserDAOImpl implements UserDAO {
             throw new RuntimeException(ex);
         }
     }
-
-    @Override
-    public void close() {
-
-    }
-
 }

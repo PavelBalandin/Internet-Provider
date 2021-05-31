@@ -14,33 +14,32 @@ public class TariffService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public Tariff getTariffById(int id) {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            return dao.findById(id);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        return dao.findById(id);
+
     }
 
     public List<Tariff> getAllTariffs() {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            return dao.findAll();
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        return dao.findAll();
+
     }
 
     public List<Tariff> getTariffsByUserLogin(String login) {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            return dao.findTariffsByLogin(login);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        return dao.findTariffsByLogin(login);
+
     }
 
     public TariffPage getPaginated(int page, int size) {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            return dao.findPaginated(page, size);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        return dao.findPaginated(page, size);
+
     }
 
     public List<Tariff> getAllTariffsByServiceId(int id, String sort, String order) {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            return dao.findAllByServiceId(id, sort, order);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        return dao.findAllByServiceId(id, sort, order);
     }
 
     public void createTariff(String name, String description, String duration, BigDecimal price, int serviceId) {
@@ -56,9 +55,9 @@ public class TariffService {
                 .withService(service)
                 .build();
 
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            dao.create(tariff);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        dao.create(tariff);
+
     }
 
     public void updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
@@ -75,15 +74,15 @@ public class TariffService {
                 .withService(service)
                 .build();
 
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            dao.update(tariff);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        dao.update(tariff);
+       
     }
 
     public void deleteTariff(int id) {
-        try (TariffDAO dao = daoFactory.createTariffDao()) {
-            dao.delete(id);
-        }
+        TariffDAO dao = daoFactory.createTariffDao();
+        dao.delete(id);
+
     }
 
 }

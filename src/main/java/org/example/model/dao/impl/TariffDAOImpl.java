@@ -261,9 +261,4 @@ public class TariffDAOImpl implements TariffDAO {
         DBCPDataSource.commitAndClose(connection);
     }
 
-    @Override
-    public void close() {
-
-    }
-
 }

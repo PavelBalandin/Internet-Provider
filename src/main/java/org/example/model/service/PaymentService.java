@@ -13,9 +13,8 @@ public class PaymentService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public List<Payment> getPaymentListByUser(String login) {
-        try (PaymentDAO dao = daoFactory.createPaymentDao()) {
-            return dao.findPaymentListByUserLogin(login);
-        }
+        PaymentDAO dao = daoFactory.createPaymentDao();
+        return dao.findPaymentListByUserLogin(login);
     }
 
     public void createPayment(String userLogin, BigDecimal payment) {
@@ -28,9 +27,9 @@ public class PaymentService {
         paymentEntity.setPayment(payment);
         paymentEntity.setUser(user);
 
-        try (PaymentDAO dao = daoFactory.createPaymentDao()) {
-            dao.create(paymentEntity);
-        }
+        PaymentDAO dao = daoFactory.createPaymentDao();
+        dao.create(paymentEntity);
+
     }
 
 }

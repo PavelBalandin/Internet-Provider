@@ -14,15 +14,14 @@ public class UserService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public User getUserById(int id) {
-        try (UserDAO dao = daoFactory.createUserDao()) {
-            return dao.findById(id);
-        }
+        UserDAO dao = daoFactory.createUserDao();
+        return dao.findById(id);
+
     }
 
     public User getUserByLogin(String login) {
-        try (UserDAO dao = daoFactory.createUserDao()) {
-            return dao.findByLogin(login);
-        }
+        UserDAO dao = daoFactory.createUserDao();
+        return dao.findByLogin(login);
     }
 
     public void createUser(String name, String password, String firstname, String lastname) {
@@ -32,9 +31,9 @@ public class UserService {
         user.setFirstName(firstname);
         user.setLastName(lastname);
 
-        try (UserDAO dao = daoFactory.createUserDao()) {
-            dao.create(user);
-        }
+        UserDAO dao = daoFactory.createUserDao();
+        dao.create(user);
+
     }
 
     public void updateUser(int id, int statusId) {
@@ -45,14 +44,15 @@ public class UserService {
                 .withId(id)
                 .withStatus(status)
                 .build();
-        try (UserDAO dao = daoFactory.createUserDao()) {
-            dao.update(user);
-        }
+
+        UserDAO dao = daoFactory.createUserDao();
+        dao.update(user);
+
     }
 
     public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
-        try (UserDAO dao = daoFactory.createUserDao()) {
-            return dao.makeOrder(userLogin, tariffList);
-        }
+        UserDAO dao = daoFactory.createUserDao();
+        return dao.makeOrder(userLogin, tariffList);
+
     }
 }

@@ -84,9 +84,4 @@ public class ServiceDAOImpl implements ServiceDAO {
     public void delete(int id) {
 
     }
-
-    @Override
-    public void close() {
-
-    }
 }

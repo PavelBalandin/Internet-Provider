@@ -78,8 +78,4 @@ public class PaymentDAOImpl implements PaymentDAO {
         return paymentList;
     }
 
-    @Override
-    public void close() {
-
-    }
 }
