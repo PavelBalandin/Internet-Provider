@@ -3,7 +3,6 @@ package org.example.controller.command.admin;
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
 import org.example.model.entity.TariffPage;
-import org.example.model.service.ServiceService;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +12,9 @@ public class GetTariffListCommand implements Command {
     private static final Logger logger = Logger.getLogger(GetTariffListCommand.class);
 
     private final TariffService tariffService;
-    private final ServiceService serviceService;
 
-    public GetTariffListCommand(TariffService tariffService, ServiceService serviceService) {
+    public GetTariffListCommand(TariffService tariffService) {
         this.tariffService = tariffService;
-        this.serviceService = serviceService;
     }
 
     @Override

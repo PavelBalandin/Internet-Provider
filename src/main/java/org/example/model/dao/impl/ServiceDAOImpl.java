@@ -51,10 +51,8 @@ public class ServiceDAOImpl implements ServiceDAO {
 
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SELECT_SERVICES);
-
             ServiceMapper serviceMapper = new ServiceMapper();
             TariffMapper tariffMapper = new TariffMapper();
-
             while (rs.next()) {
                 Service service = serviceMapper
                         .extractFromResultSet(rs);
@@ -67,12 +65,11 @@ public class ServiceDAOImpl implements ServiceDAO {
                 service.getTariffs().add(tariff);
             }
             DBCPDataSource.commitAndClose(connection);
-            return new ArrayList<>(services.values());
         } catch (SQLException e) {
             DBCPDataSource.rollbackAndClose(connection);
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
+        return new ArrayList<>(services.values());
     }
 
     @Override

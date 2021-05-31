@@ -75,17 +75,17 @@ public class Servlet extends HttpServlet {
         commands.put("createUser", new CreateUserCommand(new UserService()));
         commands.put("updateUser", new UpdateUserCommand(new UserService()));
 
-        commands.put("getTariffList", new GetTariffListCommand(new TariffService(), new ServiceService()));
-        commands.put("createTariff", new CreateTariffCommand(new TariffService(), new ServiceService()));
-        commands.put("updateTariff", new UpdateTariffCommand(new TariffService(), new ServiceService()));
-        commands.put("deleteTariff", new DeleteTariffCommand(new TariffService(), new ServiceService()));
+        commands.put("getTariffList", new GetTariffListCommand(new TariffService()));
+        commands.put("createTariff", new CreateTariffCommand(new TariffService()));
+        commands.put("updateTariff", new UpdateTariffCommand(new TariffService()));
+        commands.put("deleteTariff", new DeleteTariffCommand(new TariffService()));
 
         commands.put("getUserOrderPage", new GetUserOrderPageCommand());
         commands.put("getAddFundsPage", new GetAddFundsPageCommand());
         commands.put("getUserPaymentListPage", new GetUserPaymentListPageCommand(new PaymentService()));
         commands.put("addTariffToOrder", new AddTariffToOrderCommand(new TariffService()));
         commands.put("deleteTariffFromOrder", new DeleteTariffFromOrderCommand(new TariffService()));
-        commands.put("makeOrder", new MakeOrderCommand(new UserService(), new TariffService()));
+        commands.put("makeOrder", new MakeOrderCommand(new UserService()));
         commands.put("createPayment", new CreatePaymentCommand(new PaymentService()));
         commands.put("getUserTariffListPage", new GetUserTariffListPageCommand(new TariffService()));
     }

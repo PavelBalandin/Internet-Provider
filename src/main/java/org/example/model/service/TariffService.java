@@ -57,7 +57,6 @@ public class TariffService {
 
         TariffDAO dao = daoFactory.createTariffDao();
         dao.create(tariff);
-
     }
 
     public void updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
@@ -76,13 +75,10 @@ public class TariffService {
 
         TariffDAO dao = daoFactory.createTariffDao();
         dao.update(tariff);
-       
     }
 
     public void deleteTariff(int id) {
         TariffDAO dao = daoFactory.createTariffDao();
         dao.delete(id);
-
     }
-
 }

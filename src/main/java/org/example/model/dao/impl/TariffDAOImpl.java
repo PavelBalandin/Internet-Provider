@@ -98,13 +98,6 @@ public class TariffDAOImpl implements TariffDAO {
 
     @Override
     public List<Tariff> findAllByServiceId(int id, String sort, String order) {
-        if (sort == null) {
-            sort = "name";
-        }
-        if (order == null) {
-            order = "asc";
-        }
-
         List<Tariff> tariffs = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             String query = String.format(SELECT_TARIFFS_BY_SERVICE_ID, id, sort, order);

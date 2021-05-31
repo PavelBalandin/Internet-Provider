@@ -2,25 +2,19 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
-import org.example.model.entity.Service;
-import org.example.model.entity.Tariff;
 import org.example.model.entity.TariffPage;
-import org.example.model.service.ServiceService;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class CreateTariffCommand implements Command {
     private static final Logger logger = Logger.getLogger(CreateTariffCommand.class);
 
     private final TariffService tariffService;
-    private final ServiceService serviceService;
 
-    public CreateTariffCommand(TariffService tariffService, ServiceService serviceService) {
+    public CreateTariffCommand(TariffService tariffService) {
         this.tariffService = tariffService;
-        this.serviceService = serviceService;
     }
 
     @Override

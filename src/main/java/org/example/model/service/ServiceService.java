@@ -13,7 +13,5 @@ public class ServiceService {
     public List<Service> getAllServices() {
         ServiceDAO dao = daoFactory.createServiceDao();
         return dao.findAll();
-
     }
-
 }

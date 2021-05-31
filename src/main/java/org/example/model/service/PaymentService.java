@@ -18,7 +18,6 @@ public class PaymentService {
     }
 
     public void createPayment(String userLogin, BigDecimal payment) {
-
         User user = new User.Builder()
                 .withLogin(userLogin)
                 .build();
@@ -29,7 +28,5 @@ public class PaymentService {
 
         PaymentDAO dao = daoFactory.createPaymentDao();
         dao.create(paymentEntity);
-
     }
-
 }

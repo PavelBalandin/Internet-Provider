@@ -27,8 +27,7 @@ public class CreatePaymentCommand implements Command {
         String userLogin = (String) request.getSession().getAttribute("login");
 
         if (payment == null || payment.equals("") || !payment.matches("[0-9]+(.[0-9]{1,2})?")
-                || new BigDecimal(payment).compareTo(BigDecimal.ZERO) == 0)
-        {
+                || new BigDecimal(payment).compareTo(BigDecimal.ZERO) == 0) {
             errorMessage = "Please fill all fields correctly";
             logger.error(errorMessage);
             request.setAttribute("errorMessage", errorMessage);

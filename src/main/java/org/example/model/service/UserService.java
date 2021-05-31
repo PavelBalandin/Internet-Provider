@@ -33,7 +33,6 @@ public class UserService {
 
         UserDAO dao = daoFactory.createUserDao();
         dao.create(user);
-
     }
 
     public void updateUser(int id, int statusId) {
@@ -47,12 +46,10 @@ public class UserService {
 
         UserDAO dao = daoFactory.createUserDao();
         dao.update(user);
-
     }
 
     public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
         UserDAO dao = daoFactory.createUserDao();
         return dao.makeOrder(userLogin, tariffList);
-
     }
 }

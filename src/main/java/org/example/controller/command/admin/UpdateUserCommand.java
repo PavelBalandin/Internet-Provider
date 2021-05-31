@@ -2,8 +2,6 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
-import org.example.model.entity.Status;
-import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;

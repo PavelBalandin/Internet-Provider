@@ -3,7 +3,6 @@ package org.example.controller.command.user;
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
 import org.example.model.entity.Tariff;
-import org.example.model.service.TariffService;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +15,9 @@ public class MakeOrderCommand implements Command {
     private static final Logger logger = Logger.getLogger(MakeOrderCommand.class);
 
     private UserService userService;
-    private TariffService tariffService;
 
-    public MakeOrderCommand(UserService userService, TariffService tariffService) {
+    public MakeOrderCommand(UserService userService) {
         this.userService = userService;
-        this.tariffService = tariffService;
     }
 
     @Override

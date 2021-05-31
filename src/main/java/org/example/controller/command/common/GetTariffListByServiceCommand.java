@@ -31,6 +31,12 @@ public class GetTariffListByServiceCommand implements Command {
             order = params.replaceAll(".*\\s", "");
             request.getSession().setAttribute("sort", params);
         }
+        if (sort == null) {
+            sort = "name";
+        }
+        if (order == null) {
+            order = "asc";
+        }
 
         List<Tariff> tariffList = tariffService.getAllTariffsByServiceId(Integer.parseInt(id), sort, order);
         logger.trace("Tariff List: " + tariffList);
