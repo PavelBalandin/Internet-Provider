@@ -2,7 +2,7 @@ package org.example.model.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.common.LoginCommand;
-import org.example.model.dao.UserDao;
+import org.example.model.dao.UserDAO;
 import org.example.model.dao.mapper.RoleMapper;
 import org.example.model.dao.mapper.StatusMapper;
 import org.example.model.dao.mapper.UserMapper;
@@ -11,11 +11,10 @@ import org.example.model.entity.*;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JDBCUserDao implements UserDao {
+public class UserDAOImpl implements UserDAO {
 
     private final String SELECT_USERS = "SELECT * FROM USERS;";
     private final String SELECT_USER_BY_ID = "SELECT * FROM USERS WHERE id = ?;";
@@ -37,7 +36,7 @@ public class JDBCUserDao implements UserDao {
 
     private Connection connection;
 
-    public JDBCUserDao(Connection connection) {
+    public UserDAOImpl(Connection connection) {
         this.connection = connection;
     }
 

@@ -2,7 +2,7 @@ package org.example.model.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.common.LoginCommand;
-import org.example.model.dao.TariffDao;
+import org.example.model.dao.TariffDAO;
 import org.example.model.dao.mapper.*;
 import org.example.model.entity.*;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JDBCTariffDao implements TariffDao {
+public class TariffDAOImpl implements TariffDAO {
 
     private final String SELECT_TARIFFS = "SELECT * FROM TARIFFS;";
     private final String SELECT_TARIFFS_BY_ID =
@@ -48,7 +48,7 @@ public class JDBCTariffDao implements TariffDao {
 
     private Connection connection;
 
-    public JDBCTariffDao(Connection connection) {
+    public TariffDAOImpl(Connection connection) {
         this.connection = connection;
     }
 

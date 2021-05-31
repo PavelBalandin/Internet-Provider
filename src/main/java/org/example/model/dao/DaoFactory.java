@@ -1,23 +1,23 @@
 package org.example.model.dao;
 
-import org.example.model.dao.impl.JDBCDaoFactory;
+import org.example.model.dao.impl.DAOFactoryImpl;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
-    public abstract UserDao createUserDao();
+    public abstract UserDAO createUserDao();
 
-    public abstract ServiceDao createServiceDao();
+    public abstract ServiceDAO createServiceDao();
 
-    public abstract TariffDao createTariffDao();
+    public abstract TariffDAO createTariffDao();
 
-    public abstract PaymentDao createPaymentDao();
+    public abstract PaymentDAO createPaymentDao();
 
     public static DaoFactory getInstance() {
         if (daoFactory == null) {
             synchronized (DaoFactory.class) {
                 if (daoFactory == null) {
-                    daoFactory = new JDBCDaoFactory();
+                    daoFactory = new DAOFactoryImpl();
                 }
             }
         }

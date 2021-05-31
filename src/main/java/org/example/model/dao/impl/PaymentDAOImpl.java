@@ -1,6 +1,6 @@
 package org.example.model.dao.impl;
 
-import org.example.model.dao.PaymentDao;
+import org.example.model.dao.PaymentDAO;
 import org.example.model.dao.mapper.PaymentMapper;
 import org.example.model.entity.Payment;
 
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JDBSPaymentDao implements PaymentDao {
+public class PaymentDAOImpl implements PaymentDAO {
 
     private final String SELECT_PAYMENTS_BY_USER_LOGIN = "SELECT * FROM payments p WHERE \n" +
             "(SELECT u.id  FROM users u where u.login = ?) = p.user_id;";
@@ -21,7 +21,7 @@ public class JDBSPaymentDao implements PaymentDao {
 
     private Connection connection;
 
-    public JDBSPaymentDao(Connection connection) {
+    public PaymentDAOImpl(Connection connection) {
         this.connection = connection;
     }
 

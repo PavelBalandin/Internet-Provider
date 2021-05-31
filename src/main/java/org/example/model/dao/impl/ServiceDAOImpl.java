@@ -2,7 +2,7 @@ package org.example.model.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.common.LoginCommand;
-import org.example.model.dao.ServiceDao;
+import org.example.model.dao.ServiceDAO;
 import org.example.model.dao.mapper.ServiceMapper;
 import org.example.model.dao.mapper.TariffMapper;
 import org.example.model.entity.Service;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JDBCServiceDao implements ServiceDao {
+public class ServiceDAOImpl implements ServiceDAO {
 
     private final String SELECT_SERVICES = "SELECT s.id AS serviceid, s.name as servicename, t.*  FROM services s JOIN tariffs t ON s.id = t.service_id;";
     private static final String SELECT_SERVICE_BY_ID = "SELECT * FROM SERVICES WHERE id = ?;";
@@ -30,7 +30,7 @@ public class JDBCServiceDao implements ServiceDao {
 
     private Connection connection;
 
-    public JDBCServiceDao(Connection connection) {
+    public ServiceDAOImpl(Connection connection) {
         this.connection = connection;
     }
 

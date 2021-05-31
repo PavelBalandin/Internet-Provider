@@ -6,7 +6,7 @@ import org.example.model.entity.User;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface UserDao extends GenericDao<User> {
+public interface UserDAO extends GenericDAO<User> {
 
     User findByLogin(String login);
 

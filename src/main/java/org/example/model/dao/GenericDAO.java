@@ -2,7 +2,7 @@ package org.example.model.dao;
 
 import java.util.List;
 
-public interface GenericDao<T> extends AutoCloseable {
+public interface GenericDAO<T> extends AutoCloseable {
     void create(T entity);
 
     T findById(int id);

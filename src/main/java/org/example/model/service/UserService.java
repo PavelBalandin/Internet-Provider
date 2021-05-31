@@ -1,7 +1,7 @@
 package org.example.model.service;
 
 import org.example.model.dao.DaoFactory;
-import org.example.model.dao.UserDao;
+import org.example.model.dao.UserDAO;
 import org.example.model.entity.Status;
 import org.example.model.entity.Tariff;
 import org.example.model.entity.User;
@@ -14,13 +14,13 @@ public class UserService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public User getUserById(int id) {
-        try (UserDao dao = daoFactory.createUserDao()) {
+        try (UserDAO dao = daoFactory.createUserDao()) {
             return dao.findById(id);
         }
     }
 
     public User getUserByLogin(String login) {
-        try (UserDao dao = daoFactory.createUserDao()) {
+        try (UserDAO dao = daoFactory.createUserDao()) {
             return dao.findByLogin(login);
         }
     }
@@ -32,7 +32,7 @@ public class UserService {
         user.setFirstName(firstname);
         user.setLastName(lastname);
 
-        try (UserDao dao = daoFactory.createUserDao()) {
+        try (UserDAO dao = daoFactory.createUserDao()) {
             dao.create(user);
         }
     }
@@ -45,13 +45,13 @@ public class UserService {
                 .withId(id)
                 .withStatus(status)
                 .build();
-        try (UserDao dao = daoFactory.createUserDao()) {
+        try (UserDAO dao = daoFactory.createUserDao()) {
             dao.update(user);
         }
     }
 
     public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
-        try (UserDao dao = daoFactory.createUserDao()) {
+        try (UserDAO dao = daoFactory.createUserDao()) {
             return dao.makeOrder(userLogin, tariffList);
         }
     }

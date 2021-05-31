@@ -1,7 +1,7 @@
 package org.example.model.service;
 
 import org.example.model.dao.DaoFactory;
-import org.example.model.dao.TariffDao;
+import org.example.model.dao.TariffDAO;
 import org.example.model.entity.Service;
 import org.example.model.entity.Tariff;
 import org.example.model.entity.TariffPage;
@@ -14,31 +14,31 @@ public class TariffService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     public Tariff getTariffById(int id) {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             return dao.findById(id);
         }
     }
 
     public List<Tariff> getAllTariffs() {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             return dao.findAll();
         }
     }
 
     public List<Tariff> getTariffsByUserLogin(String login) {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             return dao.findTariffsByLogin(login);
         }
     }
 
     public TariffPage getPaginated(int page, int size) {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             return dao.findPaginated(page, size);
         }
     }
 
     public List<Tariff> getAllTariffsByServiceId(int id, String sort, String order) {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             return dao.findAllByServiceId(id, sort, order);
         }
     }
@@ -56,7 +56,7 @@ public class TariffService {
                 .withService(service)
                 .build();
 
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             dao.create(tariff);
         }
     }
@@ -75,13 +75,13 @@ public class TariffService {
                 .withService(service)
                 .build();
 
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             dao.update(tariff);
         }
     }
 
     public void deleteTariff(int id) {
-        try (TariffDao dao = daoFactory.createTariffDao()) {
+        try (TariffDAO dao = daoFactory.createTariffDao()) {
             dao.delete(id);
         }
     }

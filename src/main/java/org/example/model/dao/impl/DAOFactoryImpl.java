@@ -5,28 +5,28 @@ import org.example.model.dao.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class JDBCDaoFactory extends DaoFactory {
+public class DAOFactoryImpl extends DaoFactory {
 
     private DBCPDataSource dbcpDataSource = DBCPDataSource.getInstance();
 
     @Override
-    public UserDao createUserDao() {
-        return new JDBCUserDao(getConnection());
+    public UserDAO createUserDao() {
+        return new UserDAOImpl(getConnection());
     }
 
     @Override
-    public ServiceDao createServiceDao() {
-        return new JDBCServiceDao(getConnection());
+    public ServiceDAO createServiceDao() {
+        return new ServiceDAOImpl(getConnection());
     }
 
     @Override
-    public TariffDao createTariffDao() {
-        return new JDBCTariffDao(getConnection());
+    public TariffDAO createTariffDao() {
+        return new TariffDAOImpl(getConnection());
     }
 
     @Override
-    public PaymentDao createPaymentDao() {
-        return new JDBSPaymentDao(getConnection());
+    public PaymentDAO createPaymentDao() {
+        return new PaymentDAOImpl(getConnection());
     }
 
     private Connection getConnection() {
