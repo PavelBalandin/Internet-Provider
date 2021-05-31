@@ -35,12 +35,14 @@ public class JDBCTariffDao implements TariffDao {
     private final String SELECT_SERVICES = "SELECT s.id AS serviceid, s.name as servicename, t.*  FROM services s JOIN tariffs t ON s.id = t.service_id;";
 
     private final String SELECT_TARIFFS_PAGINATED =
-            "SELECT t.*, s.id AS serviceid, s.name AS servicename, count(*) over()\n" +
+            "SELECT ts.*, se.id AS join_service_id, se.name as join_service_name\n" +
+                    "FROM (SELECT t.*, s.id AS serviceid, s.name AS servicename, count(*) over()\n" +
                     "FROM tariffs t JOIN services s ON t.service_id = s.id\n" +
                     "GROUP BY t.id, s.id\n" +
-                    "ORDER BY id ASC\n" +
+                    "ORDER BY t.id ASC\n" +
                     "OFFSET ?\n" +
-                    "LIMIT ?;";
+                    "LIMIT ?) \n" +
+                    "AS ts RIGHT JOIN services se ON TRUE;";
 
     private final Logger logger = Logger.getLogger(LoginCommand.class);
 
@@ -121,35 +123,48 @@ public class JDBCTariffDao implements TariffDao {
     }
 
     @Override
-    public List<Tariff> findPaginated(int page, int size) {
+    public TariffPage findPaginated(int page, int size) {
+        TariffPage tariffPage = new TariffPage();
         Map<Integer, Service> services = new HashMap<>();
         Map<Integer, Tariff> tariffs = new HashMap<>();
 
-        try (PreparedStatement ps = connection.prepareStatement(SELECT_TARIFFS_PAGINATED)) {
+        try (
+                PreparedStatement ps = connection.prepareStatement(SELECT_TARIFFS_PAGINATED);
+        ) {
             ps.setInt(1, page * size);
             ps.setInt(2, size);
             ResultSet rs = ps.executeQuery();
             ServiceMapper serviceMapper = new ServiceMapper();
             TariffMapper tariffMapper = new TariffMapper();
-
             while (rs.next()) {
-                Service service = serviceMapper
+                Service service = new Service.Builder()
+                        .withId(rs.getInt("join_service_id"))
+                        .withName(rs.getString("join_service_name"))
+                        .build();
+                serviceMapper
+                        .makeUnique(services, service);
+                Service tariffService = serviceMapper
                         .extractFromResultSet(rs);
+                tariffService = serviceMapper
+                        .makeUnique(services, tariffService);
                 Tariff tariff = tariffMapper
                         .extractFromResultSet(rs);
-                service = serviceMapper
-                        .makeUnique(services, service);
                 tariff = tariffMapper
                         .makeUnique(tariffs, tariff);
-                tariff.setService(service);
+                tariff.setService(tariffService);
+                tariffPage.setTotal(rs.getInt("count"));
             }
+            tariffPage.setTariffList(new ArrayList<>(tariffs.values()));
+            tariffPage.setServiceList(new ArrayList<>(services.values()));
+            tariffPage.setPage(page);
+            tariffPage.setPageSize(size);
             DBCPDataSource.commitAndClose(connection);
-            return new ArrayList<>(tariffs.values());
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
+        return tariffPage;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.example.model.dao.DaoFactory;
 import org.example.model.dao.TariffDao;
 import org.example.model.entity.Service;
 import org.example.model.entity.Tariff;
+import org.example.model.entity.TariffPage;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -30,7 +31,7 @@ public class TariffService {
         }
     }
 
-    public List<Tariff> getPaginated(int page, int size) {
+    public TariffPage getPaginated(int page, int size) {
         try (TariffDao dao = daoFactory.createTariffDao()) {
             return dao.findPaginated(page, size);
         }

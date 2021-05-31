@@ -2,13 +2,11 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
-import org.example.model.entity.Service;
-import org.example.model.entity.Tariff;
+import org.example.model.entity.TariffPage;
 import org.example.model.service.ServiceService;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class GetTariffListCommand implements Command {
 
@@ -36,11 +34,11 @@ public class GetTariffListCommand implements Command {
             size = "5";
         }
 
-        List<Tariff> tariffs = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
-        List<Service> services = serviceService.getAllServices();
-        request.setAttribute("tariffs", tariffs);
-        request.setAttribute("services", services);
-        logger.trace("Tariff list:" + tariffs);
+        TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
+        request.setAttribute("tariffPage", tariffPage);
+
+        logger.trace("Tariff list:" + tariffPage.getTariffList());
+        int lel = (int) Math.ceil(tariffPage.getTotal() / tariffPage.getPageSize());
 
         logger.debug("Commands finished");
         return "/WEB-INF/views/admin/edit_tariff_page.jsp";

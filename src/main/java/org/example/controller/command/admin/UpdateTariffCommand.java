@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
 import org.example.model.entity.Service;
 import org.example.model.entity.Tariff;
+import org.example.model.entity.TariffPage;
 import org.example.model.service.ServiceService;
 import org.example.model.service.TariffService;
 
@@ -57,10 +58,8 @@ public class UpdateTariffCommand implements Command {
             logger.error(errorMessage);
 
             request.setAttribute("errorMessage", errorMessage);
-            List<Tariff> tariffs = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
-            List<Service> services = serviceService.getAllServices();
-            request.setAttribute("tariffs", tariffs);
-            request.setAttribute("services", services);
+            TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
+            request.setAttribute("tariffPage", tariffPage);
             return "/WEB-INF/views/admin/edit_tariff_page.jsp";
         }
 
@@ -85,10 +84,8 @@ public class UpdateTariffCommand implements Command {
             size = "5";
         }
 
-        List<Tariff> tariffs = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
-        List<Service> services = serviceService.getAllServices();
-        request.setAttribute("tariffs", tariffs);
-        request.setAttribute("services", services);
+        TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
+        request.setAttribute("tariffPage", tariffPage);
 
         logger.debug("Commands finished");
         return "/WEB-INF/views/admin/edit_tariff_page.jsp";
