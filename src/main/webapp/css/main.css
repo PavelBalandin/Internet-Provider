@@ -49,9 +49,7 @@
     justify-content: flex-end;
 }
 
-.sort_tariff_from input {
-    width: 80px;
-    height: 40px;
+.sort_tariff_from button {
     margin-left: 20px;
     text-align: center;
 }
@@ -73,7 +71,7 @@
 }
 
 .main-content {
-    width: 90%;
+    width: 85%;
     padding: 0 20px;
     min-height: calc(100vh - 64px);
 }
@@ -81,7 +79,7 @@
 
 /* ====== ADMIN SIDE BAR ====== */
 .admin-side-bar {
-    width: 10%;
+    width: 15%;
     background-color: #fff;
     height: auto;
 }

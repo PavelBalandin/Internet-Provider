@@ -6,6 +6,7 @@ import org.example.model.entity.TariffPage;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class GetTariffListCommand implements Command {
 
@@ -18,7 +19,7 @@ public class GetTariffListCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
 
         String page = request.getParameter("page");

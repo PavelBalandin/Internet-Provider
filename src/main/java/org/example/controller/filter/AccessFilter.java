@@ -1,4 +1,7 @@
-package org.example.filter;
+package org.example.controller.filter;
+
+import org.apache.log4j.Logger;
+import org.example.controller.command.user.DeleteTariffFromOrderCommand;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -8,16 +11,17 @@ import java.util.*;
 
 public class AccessFilter implements Filter {
     private static final String URL_PATTERN = ".*/InternetProvider/";
-
     private static final List<String> common = new ArrayList<>();
     private static final List<String> guest = new ArrayList<>();
     private static final Map<String, List<String>> accessMap = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(AccessFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        logger.debug("Filter initialization starts");
         common.addAll(
                 Arrays.asList("/", "/user_registration.jsp", "/css/main.css", "getServiceList",
-                        "getTariffListByService", "changeLocale"));
+                        "getTariffListByService", "changeLocale", "downloadTariffList"));
         guest.addAll(
                 Arrays.asList("/login.jsp", "login"));
         accessMap.put("ADMIN",
@@ -26,15 +30,19 @@ public class AccessFilter implements Filter {
         accessMap.put("USER",
                 Arrays.asList("logout", "getUserOrderPage", "getAddFundsPage", "getUserPaymentListPage",
                         "addTariffToOrder", "deleteTariffFromOrder", "makeOrder", "createPayment", "getUserTariffListPage"));
+        logger.debug("Filter initialization finished");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        logger.debug("Filter starts");
         if (accessAllowed(request)) {
+            logger.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
             String errorMessage = "You don't have permission to access the requested resource";
             request.setAttribute("errorMessage", errorMessage);
+            logger.trace("User doesn't have permission to access the requested resource");
             request.getRequestDispatcher("/error.jsp")
                     .forward(request, response);
         }
@@ -45,6 +53,7 @@ public class AccessFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         String uri = req.getRequestURI();
+        logger.trace("Uri :" + uri);
 
         String commandName = uri.replaceAll(URL_PATTERN, "");
 
@@ -71,6 +80,8 @@ public class AccessFilter implements Filter {
 
     @Override
     public void destroy() {
+        logger.debug("Filter destruction starts");
 
+        logger.debug("Filter destruction finished");
     }
 }

@@ -23,6 +23,7 @@
                 <tr>
                     <td>${payment.payment}</td>
                     <td>${payment.dateTime.toString()}</td>
+<%--                    <td><fmt:formatDate value="${payment.dateTime}" type="date" dateStyle="short" /></td>--%>
                 </tr>
             </c:forEach>
             </tbody>

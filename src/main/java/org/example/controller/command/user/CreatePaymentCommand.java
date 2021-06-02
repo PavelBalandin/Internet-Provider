@@ -5,6 +5,7 @@ import org.example.controller.command.Command;
 import org.example.model.service.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 
 public class CreatePaymentCommand implements Command {
@@ -17,7 +18,7 @@ public class CreatePaymentCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
 
         String errorMessage = null;

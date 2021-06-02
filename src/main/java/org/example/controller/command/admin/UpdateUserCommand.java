@@ -5,6 +5,7 @@ import org.example.controller.command.Command;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class UpdateUserCommand implements Command {
 
@@ -17,7 +18,7 @@ public class UpdateUserCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
 
         String errorMessage = null;

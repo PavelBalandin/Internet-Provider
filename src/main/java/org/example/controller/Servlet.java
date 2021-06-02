@@ -44,10 +44,10 @@ public class Servlet extends HttpServlet {
         String commandName = uri.replaceAll(URL_PATTERN, "");
         logger.trace("Command name: " + commandName);
 
-        Command command = commands.getOrDefault(commandName, r -> "/index.jsp");
+        Command command = commands.getOrDefault(commandName, (r, k) -> "/index.jsp");
         logger.trace("Command: " + command.getClass().getSimpleName());
 
-        String page = command.execute(req);
+        String page = command.execute(req, resp);
         if (page.contains("redirect:")) {
             page = page.replace("redirect:", "");
             logger.trace("Redirect: " + page);
@@ -68,6 +68,7 @@ public class Servlet extends HttpServlet {
         commands.put("getServiceList", new GetServiceListCommand(new ServiceService()));
         commands.put("getTariffListByService", new GetTariffListByServiceCommand(new TariffService()));
         commands.put("changeLocale", new ChangeLocaleCommand());
+        commands.put("downloadTariffList", new DownloadTariffListCommand(new ServiceService()));
 
         commands.put("getUser", new GetUserCommand(new UserService()));
         commands.put("createUser", new CreateUserCommand(new UserService()));

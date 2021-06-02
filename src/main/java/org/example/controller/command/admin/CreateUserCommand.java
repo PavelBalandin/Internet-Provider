@@ -5,6 +5,7 @@ import org.example.controller.command.Command;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class CreateUserCommand implements Command {
     private static final Logger logger = Logger.getLogger(CreateUserCommand.class);
@@ -18,7 +19,7 @@ public class CreateUserCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
 
         String login = request.getParameter("login");

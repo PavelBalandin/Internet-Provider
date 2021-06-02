@@ -6,6 +6,7 @@ import org.example.model.entity.Service;
 import org.example.model.service.ServiceService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class GetServiceListCommand implements Command {
@@ -19,7 +20,7 @@ public class GetServiceListCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
         List<Service> serviceList = serviceService.getAllServices();
 

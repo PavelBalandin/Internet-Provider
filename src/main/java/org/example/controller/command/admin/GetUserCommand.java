@@ -6,6 +6,7 @@ import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class GetUserCommand implements Command {
 
@@ -18,7 +19,7 @@ public class GetUserCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
 
         String login = request.getParameter("login");

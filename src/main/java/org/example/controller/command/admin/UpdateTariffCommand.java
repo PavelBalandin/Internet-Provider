@@ -6,6 +6,7 @@ import org.example.model.entity.TariffPage;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 
 public class UpdateTariffCommand implements Command {
@@ -19,7 +20,7 @@ public class UpdateTariffCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
 
         String id = request.getParameter("id");

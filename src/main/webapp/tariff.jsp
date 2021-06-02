@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/components/lib.jsp" %>
+
+<fmt:message key="tariff.name" var="tariffTariff"/>
+<fmt:message key="tariff.description" var="tariffDescription"/>
+<fmt:message key="tariff.price" var="tariffPrice"/>
+<fmt:message key="tariff.currency" var="tariffCurrency"/>
+<fmt:message key="tariff.order" var="tariffOrder"/>
+<fmt:message key="tariff.add.order" var="tariffAddOrder"/>
+<fmt:message key="tariff.days" var="tariffDays"/>
+<fmt:message key="tariff.sort" var="tariffSort"/>
+
+
 <html>
 <head>
     <title>Title</title>
@@ -19,16 +30,16 @@
                 <option value="price desc" ${sessionScope.sort.equals("price desc") ? "selected" : ""}>$$$-$</option>
             </select>
         </div>
-        <input class="btn" type="submit" value='sort'>
+        <button class="btn" type="submit">${tariffSort}</button>
     </form>
     <div class="tariff_list">
         <table class="striped">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Order</th>
+                <th>${tariffTariff}</th>
+                <th>${tariffDescription}</th>
+                <th>${tariffPrice}</th>
+                <th>${tariffOrder}</th>
             </tr>
             </thead>
 
@@ -37,8 +48,9 @@
                 <tr>
                     <td>${tariff.name}</td>
                     <td>${tariff.description}</td>
-                    <td>${tariff.price} грн / ${tariff.duration} днів</td>
-                    <td><a href="${pageContext.request.contextPath}/InternetProvider/addTariffToOrder?id=${tariff.id}">Придбати</a>
+                    <td>${tariff.price} ${tariffCurrency} / ${tariff.duration} ${tariffDays}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/InternetProvider/addTariffToOrder?id=${tariff.id}">${tariffAddOrder}</a>
                     </td>
                 </tr>
             </c:forEach>
