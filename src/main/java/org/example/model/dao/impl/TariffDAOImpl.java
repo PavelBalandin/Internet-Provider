@@ -28,8 +28,8 @@ public class TariffDAOImpl implements TariffDAO {
             "where u.login = ?;";
 
     private final String SELECT_TARIFFS_BY_SERVICE_ID = "SELECT * FROM TARIFFS WHERE service_id = %d ORDER BY %s %s;";
-    private final String INSERT_TARIFFS = "INSERT INTO tariffs VALUES (DEFAULT, ?, ?, ?, ?, ?);";
-    private final String UPDATE_TARIFFS = "UPDATE TARIFFS SET name  = ?, description = ?, duration = ?, price = ?, service_id = ?  WHERE id = ?;";
+    private final String INSERT_TARIFFS = "INSERT INTO tariffs VALUES (DEFAULT, ?, ?, ?, ?, ?) RETURNING *;";
+    private final String UPDATE_TARIFFS = "UPDATE TARIFFS SET name  = ?, description = ?, duration = ?, price = ?, service_id = ?  WHERE id = ? RETURNING *;";
     private final String DELETE_TARIFFS = "DELETE FROM TARIFFS WHERE id = ?;";
 
     private final String SELECT_SERVICES = "SELECT s.id AS serviceid, s.name as servicename, t.*  FROM services s JOIN tariffs t ON s.id = t.service_id;";
@@ -44,8 +44,6 @@ public class TariffDAOImpl implements TariffDAO {
                     "LIMIT ?) \n" +
                     "AS ts RIGHT JOIN services se ON TRUE;";
 
-    private final Logger logger = Logger.getLogger(LoginCommand.class);
-
     private Connection connection;
 
     public TariffDAOImpl(Connection connection) {
@@ -53,20 +51,25 @@ public class TariffDAOImpl implements TariffDAO {
     }
 
     @Override
-    public void create(Tariff tariff) {
+    public Tariff create(Tariff tariff) {
+        Tariff tariffFromDb = null;
+        TariffMapper tariffMapper = new TariffMapper();
         try (PreparedStatement ps = connection.prepareStatement(INSERT_TARIFFS)) {
             ps.setString(1, tariff.getName());
             ps.setString(2, tariff.getDescription());
             ps.setString(3, tariff.getDuration());
             ps.setBigDecimal(4, tariff.getPrice());
             ps.setInt(5, tariff.getService().getId());
-            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                tariffFromDb = tariffMapper.extractFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             throw new RuntimeException(ex);
         }
         DBCPDataSource.commitAndClose(connection);
-
+        return tariffFromDb;
     }
 
     @Override
@@ -218,13 +221,14 @@ public class TariffDAOImpl implements TariffDAO {
             return new ArrayList<>(tariffs.values());
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
-            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
     }
 
     @Override
-    public void update(Tariff tariff) {
+    public Tariff update(Tariff tariff) {
+        Tariff tariffFromDb = null;
+        TariffMapper tariffMapper = new TariffMapper();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_TARIFFS)) {
             ps.setString(1, tariff.getName());
             ps.setString(2, tariff.getDescription());
@@ -232,13 +236,16 @@ public class TariffDAOImpl implements TariffDAO {
             ps.setBigDecimal(4, tariff.getPrice());
             ps.setInt(5, tariff.getService().getId());
             ps.setInt(6, tariff.getId());
-            ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                tariffFromDb = tariffMapper.extractFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
-            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         DBCPDataSource.commitAndClose(connection);
+        return tariffFromDb;
     }
 
     @Override

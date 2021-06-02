@@ -1,5 +1,6 @@
 package org.example.model.service;
 
+import org.apache.log4j.Logger;
 import org.example.model.dao.DaoFactory;
 import org.example.model.dao.TariffDAO;
 import org.example.model.entity.Service;
@@ -10,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class TariffService {
+
+    private static final Logger logger = Logger.getLogger(TariffService.class);
 
     DaoFactory daoFactory = DaoFactory.getInstance();
 
@@ -42,7 +45,7 @@ public class TariffService {
         return dao.findAllByServiceId(id, sort, order);
     }
 
-    public void createTariff(String name, String description, String duration, BigDecimal price, int serviceId) {
+    public Tariff createTariff(String name, String description, String duration, BigDecimal price, int serviceId) {
         Tariff tariff = new Tariff.Builder()
                 .withName(name)
                 .withDescription(description)
@@ -54,10 +57,12 @@ public class TariffService {
                 .build();
 
         TariffDAO dao = daoFactory.createTariffDao();
-        dao.create(tariff);
+        Tariff tariffFromDb = dao.create(tariff);
+        logger.info("Tariff has been created:" + tariffFromDb);
+        return tariffFromDb;
     }
 
-    public void updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
+    public Tariff updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
         Tariff tariff = new Tariff.Builder()
                 .withId(id)
                 .withName(name)
@@ -70,7 +75,9 @@ public class TariffService {
                 .build();
 
         TariffDAO dao = daoFactory.createTariffDao();
-        dao.update(tariff);
+        Tariff tariffFromDb = dao.update(tariff);
+        logger.info("Tariff has been updated:" + tariffFromDb);
+        return tariffFromDb;
     }
 
     public void deleteTariff(int id) {

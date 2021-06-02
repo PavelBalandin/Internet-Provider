@@ -26,8 +26,6 @@ public class ServiceDAOImpl implements ServiceDAO {
     private static final String UPDATE_SERVICE = "UPDATE SERVICES SET name  = ? WHERE id = ?;";
     private static final String DELETE_SERVICE = "DELETE FROM SERVICES WHERE id = ?;";
 
-    private final Logger logger = Logger.getLogger(LoginCommand.class);
-
     private Connection connection;
 
     public ServiceDAOImpl(Connection connection) {
@@ -35,8 +33,8 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     @Override
-    public void create(Service entity) {
-
+    public Service create(Service entity) {
+        return null;
     }
 
     @Override
@@ -73,8 +71,8 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     @Override
-    public void update(Service entity) {
-
+    public Service update(Service entity) {
+        return null;
     }
 
     @Override

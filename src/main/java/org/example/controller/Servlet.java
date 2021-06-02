@@ -21,43 +21,13 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
-
     private final Map<String, Command> commands = new HashMap<>();
 
     private static final String URL_PATTERN = ".*/InternetProvider/";
 
     private static final Logger logger = Logger.getLogger(Servlet.class);
 
-
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String uri = req.getRequestURI();
-        logger.trace("URI: " + uri);
-
-        String commandName = uri.replaceAll(URL_PATTERN, "");
-        logger.trace("Command name: " + commandName);
-
-        Command command = commands.getOrDefault(commandName, (r, k) -> "/index.jsp");
-        logger.trace("Command: " + command.getClass().getSimpleName());
-
-        String page = command.execute(req, resp);
-        if (page.contains("redirect:")) {
-            page = page.replace("redirect:", "");
-            logger.trace("Redirect: " + page);
-            resp.sendRedirect(page);
-        } else {
-            logger.trace("Forward: " + page);
-            req.getRequestDispatcher(page).forward(req, resp);
-        }
-    }
-
+    @Override
     public void init(ServletConfig servletConfig) {
         servletConfig.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
 
@@ -87,5 +57,36 @@ public class Servlet extends HttpServlet {
         commands.put("makeOrder", new MakeOrderCommand(new UserService()));
         commands.put("createPayment", new CreatePaymentCommand(new PaymentService()));
         commands.put("getUserTariffListPage", new GetUserTariffListPageCommand(new TariffService()));
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        logger.trace("URI: " + uri);
+
+        String commandName = uri.replaceAll(URL_PATTERN, "");
+        logger.trace("Command name: " + commandName);
+
+        Command command = commands.getOrDefault(commandName, (r, k) -> "/index.jsp");
+        logger.trace("Command: " + command.getClass().getSimpleName());
+
+        String page = command.execute(req, resp);
+        if (page.contains("redirect:")) {
+            page = page.replace("redirect:", "");
+            logger.trace("Redirect: " + page);
+            resp.sendRedirect(page);
+        } else {
+            logger.trace("Forward: " + page);
+            req.getRequestDispatcher(page).forward(req, resp);
+        }
     }
 }

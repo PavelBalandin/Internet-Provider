@@ -24,15 +24,12 @@ public class UserDAOImpl implements UserDAO {
             "FROM users u JOIN roles r ON u.role_id = r.id \n" +
             "JOIN statuses s ON u.status_id = s.id \n" +
             "where u.login = ?;";
-    private final String INSERT_USER = "INSERT INTO USERS VALUES(DEFAULT, ?, ?, ?, ?, DEFAULT, DEFAULT);";
-    private final String UPDATE_USER = "UPDATE USERS SET status_id = ? WHERE id = ?;";
+    private final String INSERT_USER = "INSERT INTO USERS VALUES(DEFAULT, ?, ?, ?, ?, DEFAULT, DEFAULT) RETURNING *;";
+    private final String UPDATE_USER = "UPDATE USERS SET status_id = ? WHERE id = ? RETURNING *;";
     private final String DELETE_USER = "DELETE FROM USERS WHERE id = ?;";
     private final String DELETE_USER_BY_LOGIN = "DELETE FROM USERS WHERE login = ?;";
 
-    private final String MAKE_ORDER = "SELECT make_order(? , ?);";
-
-
-    private final Logger logger = Logger.getLogger(LoginCommand.class);
+    private final String MAKE_ORDER = "SELECT make_order(?, ?);";
 
     private Connection connection;
 
@@ -41,19 +38,24 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
+        User userFromDb = null;
+        UserMapper userMapper = new UserMapper();
         try (PreparedStatement ps = connection.prepareStatement(INSERT_USER)) {
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
-            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userFromDb = userMapper.extractFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             throw new RuntimeException(ex);
         }
         DBCPDataSource.commitAndClose(connection);
-
+        return userFromDb;
     }
 
     @Override
@@ -93,16 +95,22 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void update(User user) {
+    public User update(User user) {
+        User userFromDb = null;
+        UserMapper userMapper = new UserMapper();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_USER)) {
             ps.setInt(1, user.getStatus().getId());
             ps.setInt(2, user.getId());
-            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userFromDb = userMapper.extractFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             throw new RuntimeException(ex);
         }
         DBCPDataSource.commitAndClose(connection);
+        return userFromDb;
     }
 
     @Override

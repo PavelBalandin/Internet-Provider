@@ -17,7 +17,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             "(SELECT u.id  FROM users u where u.login = ?) = p.user_id;";
 
     private final String INSERT_PAYMENT =
-            "INSERT INTO payments VALUES(DEFAULT, ?, (SELECT u.id  FROM users u where u.login = ?), DEFAULT);";
+            "INSERT INTO payments VALUES(DEFAULT, ?, (SELECT u.id  FROM users u where u.login = ?), DEFAULT) RETURNING *;";
 
     private Connection connection;
 
@@ -26,16 +26,22 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public void create(Payment payment) {
+    public Payment create(Payment payment) {
+        Payment paymentFromDb = null;
+        PaymentMapper paymentMapper = new PaymentMapper();
         try (PreparedStatement ps = connection.prepareStatement(INSERT_PAYMENT)) {
             ps.setBigDecimal(1, payment.getPayment());
             ps.setString(2, payment.getUser().getLogin());
-            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                paymentFromDb = paymentMapper.extractFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);
             throw new RuntimeException(ex);
         }
         DBCPDataSource.commitAndClose(connection);
+        return paymentFromDb;
     }
 
     @Override
@@ -49,8 +55,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public void update(Payment entity) {
-
+    public Payment update(Payment entity) {
+        return null;
     }
 
     @Override
