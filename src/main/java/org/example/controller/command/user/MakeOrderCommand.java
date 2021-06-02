@@ -2,6 +2,7 @@ package org.example.controller.command.user;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.Tariff;
 import org.example.model.service.UserService;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MakeOrderCommand implements Command {
 
@@ -24,15 +26,13 @@ public class MakeOrderCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
-
-        String errorMessage = null;
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         List<Tariff> orderTariffList = (List<Tariff>) request.getSession().getAttribute("orderTariffList");
 
         if (orderTariffList == null || orderTariffList.isEmpty()) {
-            errorMessage = "Order list is empty";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.order.empty"));
+            logger.error(rb.getString("message.order.empty"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
 
@@ -41,25 +41,21 @@ public class MakeOrderCommand implements Command {
         try {
             BigDecimal remainder = userService.makeOrder(userLogin, orderTariffList);
             if (remainder.compareTo(BigDecimal.ZERO) >= 0) {
-                request.setAttribute("successMessage", "Order has been successfully completed");
+                request.setAttribute("successMessage", rb.getString("message.order.completed"));
                 orderTariffList = new ArrayList<>();
                 request.getSession().setAttribute("orderTariffList", orderTariffList);
-                logger.trace("Order has been successfully completed");
+                logger.trace(rb.getString("message.order.completed"));
             } else {
-                errorMessage = "You don't have enough money";
-                request.setAttribute("errorMessage", errorMessage);
-                logger.error(errorMessage);
+                request.setAttribute("errorMessage", rb.getString("message.order.enough.money"));
+                logger.error(rb.getString("message.order.enough.money"));
             }
 
         } catch (RuntimeException ex) {
-            errorMessage = "Order failed";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             logger.error(ex);
             return "/WEB-INF/views/user/user_page.jsp";
-
         }
-
 
         logger.debug("Commands finished");
         return "/WEB-INF/views/user/user_page.jsp";

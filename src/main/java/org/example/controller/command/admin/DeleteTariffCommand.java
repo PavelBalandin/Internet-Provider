@@ -2,11 +2,13 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.TariffPage;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 
 public class DeleteTariffCommand implements Command {
 
@@ -21,19 +23,17 @@ public class DeleteTariffCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
-
-        String errorMessage = null;
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String id = request.getParameter("id");
 
         try {
             tariffService.deleteTariff(Integer.parseInt(id));
-            request.setAttribute("successMessage", "Tariff has been deleted successfully");
+            request.setAttribute("successMessage", rb.getString("message.tariff.deleted"));
             logger.trace("Tariff has been deleted");
         } catch (RuntimeException ex) {
             logger.error(ex.getMessage());
-            errorMessage = "Tariff hasn't been deleted";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
         }
 
         String page = request.getParameter("page");

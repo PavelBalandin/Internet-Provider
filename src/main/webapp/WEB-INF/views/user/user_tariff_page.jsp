@@ -1,6 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/components/lib.jsp" %>
 
+<fmt:message key="tariff.name" var="tariffTariff"/>
+<fmt:message key="tariff.description" var="tariffDescription"/>
+<fmt:message key="tariff.price" var="tariffPrice"/>
+<fmt:message key="tariff.currency" var="tariffCurrency"/>
+<fmt:message key="tariff.days" var="tariffDays"/>
+<fmt:message key="tariff.start" var="tariffStart"/>
+<fmt:message key="tariff.end" var="tariffEnd"/>
+<fmt:message key="service.service" var="serviceService"/>
+
 <html>
 <head>
     <title>User page</title>
@@ -15,12 +24,12 @@
             <table class="striped">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Service</th>
-                    <th>Start</th>
-                    <th>End</th>
+                    <th>${tariffTariff}</th>
+                    <th>${tariffDescription}</th>
+                    <th>${tariffPrice}</th>
+                    <th>${serviceService}</th>
+                    <th>${tariffStart}</th>
+                    <th>${tariffEnd}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,7 +37,7 @@
                     <tr>
                         <td>${tariff.name}</td>
                         <td>${tariff.description}</td>
-                        <td>${tariff.price} грн / ${tariff.duration} днів</td>
+                        <td>${tariff.price} ${tariffCurrency} / ${tariff.duration} ${tariffDays}</td>
                         <td>${tariff.service.name}</td>
                     </tr>
                 </c:forEach>

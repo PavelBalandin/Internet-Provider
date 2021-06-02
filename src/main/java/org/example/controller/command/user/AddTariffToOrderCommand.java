@@ -2,6 +2,7 @@ package org.example.controller.command.user;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.Tariff;
 import org.example.model.service.TariffService;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AddTariffToOrderCommand implements Command {
 
@@ -23,11 +25,8 @@ public class AddTariffToOrderCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
-
-        String errorMessage = null;
-
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
         List<Tariff> orderTariffList = (List<Tariff>) request.getSession().getAttribute("orderTariffList");
-
 
         if (orderTariffList == null) {
             orderTariffList = new ArrayList<>();
@@ -36,33 +35,29 @@ public class AddTariffToOrderCommand implements Command {
         String id = request.getParameter("id");
 
         if (id == null || id.equals("")) {
-            errorMessage = "Required parameters are missing";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
 
         Tariff tariff = tariffService.getTariffById(Integer.parseInt(id));
 
         if (tariff == null) {
-            errorMessage = "There is no such tariff";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
         logger.trace("Tariff:" + tariff);
 
         if (orderTariffList.contains(tariff)) {
-            errorMessage = "This tariff is already on the list";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.order.already"));
+            logger.error(rb.getString("message.order.already"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
 
         orderTariffList.add(tariff);
         request.getSession().setAttribute("orderTariffList", orderTariffList);
-        request.setAttribute("successMessage", "Tariff has been added successfully");
-
+        request.setAttribute("successMessage", rb.getString("message.order.add.tariff"));
         logger.trace("Order tariff list:" + orderTariffList);
 
         logger.debug("Commands finished");

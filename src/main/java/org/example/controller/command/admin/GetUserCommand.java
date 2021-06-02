@@ -2,11 +2,13 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 
 public class GetUserCommand implements Command {
 
@@ -21,23 +23,21 @@ public class GetUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String login = request.getParameter("login");
 
-        String errorMessage = null;
 
         if (login == null || login.equals("")) {
-            errorMessage = "Enter login";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.empty.fields"));
+            logger.error(rb.getString("message.empty.fields"));
             return "/WEB-INF/views/admin/update_user_page.jsp";
         }
 
         User user = userService.getUserByLogin(login);
         if (user == null) {
-            errorMessage = "Incorrect login";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.incorrect.login"));
+            logger.error(rb.getString("message.incorrect.login"));
             return "/WEB-INF/views/admin/update_user_page.jsp";
         }
 

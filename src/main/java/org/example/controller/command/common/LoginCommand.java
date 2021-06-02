@@ -18,7 +18,6 @@ public class LoginCommand implements Command {
     private static final String LOGIN_PAGE = "/login.jsp";
 
     private final UserService userService;
-    private ResourceBundle rb;
 
     public LoginCommand(UserService userService) {
         this.userService = userService;
@@ -27,7 +26,7 @@ public class LoginCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
-        rb = CommandUtility.setResourceBundle(request);
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");

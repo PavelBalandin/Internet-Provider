@@ -2,10 +2,12 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 
 public class UpdateUserCommand implements Command {
 
@@ -20,28 +22,25 @@ public class UpdateUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
-
-        String errorMessage = null;
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String id = request.getParameter("id");
 
         String statusId = request.getParameter("status");
 
         if (id == null || id.equals("") || statusId == null || statusId.equals("")) {
-            errorMessage = "Please fill all fields";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error("Validation: " + errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.empty.fields"));
+            logger.error("Validation: " + rb.getString("message.empty.fields"));
             return "/WEB-INF/views/admin/update_user_page.jsp";
         }
 
         try {
-            userService.updateUser(Integer.parseInt(id), Integer.valueOf(statusId));
-            request.setAttribute("successMessage", "User has been updated successfully");
+            userService.updateUser(Integer.parseInt(id), Integer.parseInt(statusId));
+            request.setAttribute("successMessage", rb.getString("message.user.updated"));
             logger.trace("User has been updated successfully");
         } catch (RuntimeException ex) {
             logger.error(ex.getMessage());
-            errorMessage = "User hasn't been changed";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
         }
 
         logger.debug("Commands finished");

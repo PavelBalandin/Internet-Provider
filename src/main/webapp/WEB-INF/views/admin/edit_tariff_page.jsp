@@ -1,6 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/components/lib.jsp" %>
 
+<fmt:message key="tariff.name" var="tariffTariff"/>
+<fmt:message key="tariff.description" var="tariffDescription"/>
+<fmt:message key="tariff.price" var="tariffPrice"/>
+<fmt:message key="tariff.duration" var="tariffDuration"/>
+<fmt:message key="tariff.currency" var="tariffCurrency"/>
+<fmt:message key="tariff.days" var="tariffDays"/>
+<fmt:message key="tariff.start" var="tariffStart"/>
+<fmt:message key="tariff.end" var="tariffEnd"/>
+<fmt:message key="service.service" var="serviceService"/>
+
+<fmt:message key="button.add" var="buttonAdd"/>
+<fmt:message key="button.update" var="buttonUpdate"/>
+<fmt:message key="button.remove" var="buttonRemove"/>
+
 <html>
 <head>
     <title>Admin page</title>
@@ -16,12 +30,12 @@
             <table class="striped">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Duration</th>
-                    <th>Service</th>
-                    <th>Function</th>
+                    <th>${tariffTariff}</th>
+                    <th>${tariffDescription}</th>
+                    <th>${tariffPrice}</th>
+                    <th>${tariffDuration}</th>
+                    <th>${serviceService}</th>
+                    <th></th>
                 </tr>
                 </thead>
 
@@ -48,7 +62,7 @@
                                 <td>
                                     <input name="page" value="${tariffPage.page}" hidden>
                                     <input name="page" value="${tariffPage.pageSize}" hidden>
-                                    <button class="btn-small" type="submit">update</button>
+                                    <button class="btn-small" type="submit">${buttonUpdate}</button>
                                 </td>
                         </form>
                         <form method="get"
@@ -59,7 +73,7 @@
                                        value="${tariffPage.total % tariffPage.pageSize == 1 && tariffPage.total != 1 ? tariffPage.page-1 : tariffPage.page}"
                                        hidden>
                                 <input name="page" value="${tariffPage.pageSize}" hidden>
-                                <button class="btn-small" type="submit">delete</button>
+                                <button class="btn-small" type="submit">${buttonRemove}</button>
                             </td>
                         </form>
                         </tr>
@@ -86,7 +100,7 @@
                                    value="${tariffPage.total % tariffPage.pageSize == 0 && tariffPage.total != 0? tariffPage.page+1 : tariffPage.page}"
                                    hidden>
                             <input name="page" value="${tariffPage.pageSize}" hidden>
-                            <button class="btn-small">add</button>
+                            <button class="btn-small">${buttonAdd}</button>
                         </td>
                     </tr>
                 </form>

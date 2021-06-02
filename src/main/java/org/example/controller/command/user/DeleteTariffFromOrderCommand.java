@@ -2,12 +2,14 @@ package org.example.controller.command.user;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.Tariff;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class DeleteTariffFromOrderCommand implements Command {
 
@@ -22,44 +24,39 @@ public class DeleteTariffFromOrderCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
-
-        String errorMessage = null;
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String id = request.getParameter("id");
 
         if (id == null || id.equals("")) {
-            errorMessage = "Required parameters are missing";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
 
         List<Tariff> orderTariffList = (List<Tariff>) request.getSession().getAttribute("orderTariffList");
 
         if (orderTariffList == null || orderTariffList.isEmpty()) {
-            errorMessage = "Order list is empty";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.order.empty"));
+            logger.error(rb.getString("message.order.empty"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
 
         Tariff tariff = tariffService.getTariffById(Integer.parseInt(id));
 
         if (tariff == null) {
-            errorMessage = "There is no such tariff";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             return "/WEB-INF/views/user/user_page.jsp";
         }
         logger.trace("Tariff:" + tariff);
 
         if (orderTariffList.remove(tariff)) {
-            request.setAttribute("successMessage", "Tariff has been deleted successfully");
-            logger.trace("Tariff has been deleted successfully");
+            request.setAttribute("successMessage", rb.getString("message.tariff.deleted"));
+            logger.trace(rb.getString("message.tariff.deleted"));
         } else {
-            errorMessage = "There is no such tariff";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
         }
 
 

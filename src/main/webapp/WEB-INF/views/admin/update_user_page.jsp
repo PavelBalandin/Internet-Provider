@@ -1,6 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/components/lib.jsp" %>
 
+<fmt:message key="user.login" var="userLogin"/>
+<fmt:message key="user.firstname" var="userFirstname"/>
+<fmt:message key="user.lastname" var="userLastname"/>
+<fmt:message key="user.role" var="userRole"/>
+<fmt:message key="user.status" var="userStatus"/>
+<fmt:message key="button.find" var="buttonFind"/>
+<fmt:message key="button.update" var="buttonUpdate"/>
+
 <html>
 <head>
     <title>Update user</title>
@@ -15,21 +23,21 @@
             <div class="row">
                 <div class="input-field col s12">
                     <input id="login" type="text" class="validate" name="login">
-                    <label for="login">Login</label>
+                    <label for="login">${userLogin}</label>
                 </div>
             </div>
-            <button class="btn" type="submit">Find</button>
+            <button class="btn" type="submit">${buttonFind}</button>
         </form>
         <c:if test="${not empty user}">
             <div class="user_table">
                 <table>
                     <thead>
                     <tr>
-                        <th>Login</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Role</th>
-                        <th>Status</th>
+                        <th>${userLogin}</th>
+                        <th>${userFirstname}</th>
+                        <th>${userLastname}</th>
+                        <th>${userRole}</th>
+                        <th>${userStatus}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -51,7 +59,7 @@
                                     </option>
                                 </select></td>
                             <td>
-                                <button class="btn-small">update</button>
+                                <button class="btn-small">${buttonUpdate}</button>
                             </td>
                         </tr>
                     </form>

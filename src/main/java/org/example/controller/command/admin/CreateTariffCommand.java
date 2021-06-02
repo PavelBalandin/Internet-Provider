@@ -2,12 +2,14 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.TariffPage;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.ResourceBundle;
 
 public class CreateTariffCommand implements Command {
     private static final Logger logger = Logger.getLogger(CreateTariffCommand.class);
@@ -21,14 +23,13 @@ public class CreateTariffCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String price = request.getParameter("price");
         String duration = request.getParameter("duration");
         String serviceId = request.getParameter("serviceId");
-
-        String errorMessage = null;
 
         if (name == null || name.equals("")
                 || description == null || description.equals("")
@@ -46,8 +47,7 @@ public class CreateTariffCommand implements Command {
                 size = "5";
             }
 
-            errorMessage = "Please fill all fields correctly";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.empty.fields"));
             TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
             request.setAttribute("tariffPage", tariffPage);
             return "/WEB-INF/views/admin/edit_tariff_page.jsp";
@@ -55,12 +55,11 @@ public class CreateTariffCommand implements Command {
 
         try {
             tariffService.createTariff(name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
-            request.setAttribute("successMessage", "Tariff has been added successfully");
-            logger.trace("Tariff has been added");
+            request.setAttribute("successMessage", rb.getString("message.tariff.created"));
+            logger.trace(rb.getString("message.tariff.created"));
         } catch (RuntimeException ex) {
-            errorMessage = "Tariff hasn't been added";
             logger.error(ex.getMessage());
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
         }
 
 

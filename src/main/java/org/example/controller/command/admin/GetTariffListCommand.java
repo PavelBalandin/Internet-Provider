@@ -34,9 +34,7 @@ public class GetTariffListCommand implements Command {
 
         TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
         request.setAttribute("tariffPage", tariffPage);
-
         logger.trace("Tariff list:" + tariffPage.getTariffList());
-        int lel = (int) Math.ceil(tariffPage.getTotal() / tariffPage.getPageSize());
 
         logger.debug("Commands finished");
         return "/WEB-INF/views/admin/edit_tariff_page.jsp";

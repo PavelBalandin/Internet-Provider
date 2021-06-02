@@ -19,25 +19,21 @@ public class TariffService {
     public Tariff getTariffById(int id) {
         TariffDAO dao = daoFactory.createTariffDao();
         return dao.findById(id);
-
     }
 
     public List<Tariff> getAllTariffs() {
         TariffDAO dao = daoFactory.createTariffDao();
         return dao.findAll();
-
     }
 
     public List<Tariff> getTariffsByUserLogin(String login) {
         TariffDAO dao = daoFactory.createTariffDao();
         return dao.findTariffsByLogin(login);
-
     }
 
     public TariffPage getPaginated(int page, int size) {
         TariffDAO dao = daoFactory.createTariffDao();
         return dao.findPaginated(page, size);
-
     }
 
     public List<Tariff> getAllTariffsByServiceId(int id, String sort, String order) {

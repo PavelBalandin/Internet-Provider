@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/components/lib.jsp" %>
 
+<fmt:message key="payment.payment" var="paymentPayment"/>
+<fmt:message key="button.add" var="buttonAdd"/>
+
 <html>
 <head>
     <title>User page</title>
@@ -14,11 +17,11 @@
         <form class="find-user" method="get" action="${pageContext.request.contextPath}/InternetProvider/createPayment">
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="login" type="text" class="validate" name="payment">
-                    <label for="login">Payment</label>
+                    <input id="payment" type="text" class="validate" name="payment">
+                    <label for="payment">${paymentPayment}</label>
                 </div>
             </div>
-            <button class="btn" type="submit">Add</button>
+            <button class="btn" type="submit">${buttonAdd}</button>
         </form>
         <p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
         <p class="center-align green-text text-darken-2 successful__message">${requestScope.get("successMessage")}</p>

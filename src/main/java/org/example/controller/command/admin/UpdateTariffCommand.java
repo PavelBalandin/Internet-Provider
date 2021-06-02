@@ -2,12 +2,14 @@ package org.example.controller.command.admin;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.TariffPage;
 import org.example.model.service.TariffService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.ResourceBundle;
 
 public class UpdateTariffCommand implements Command {
 
@@ -22,6 +24,7 @@ public class UpdateTariffCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Command starts");
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -29,8 +32,6 @@ public class UpdateTariffCommand implements Command {
         String price = request.getParameter("price");
         String duration = request.getParameter("duration");
         String serviceId = request.getParameter("serviceId");
-
-        String errorMessage = null;
 
         if (id == null || id.equals("")
                 || name == null || name.equals("")
@@ -49,10 +50,8 @@ public class UpdateTariffCommand implements Command {
                 size = "5";
             }
 
-            errorMessage = "Please fill all fields correctly";
-            logger.error(errorMessage);
-
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.empty.fields"));
+            logger.trace(rb.getString("message.empty.fields"));
             TariffPage tariffPage = tariffService.getPaginated(Integer.parseInt(page), Integer.parseInt(size));
             request.setAttribute("tariffPage", tariffPage);
             return "/WEB-INF/views/admin/edit_tariff_page.jsp";
@@ -60,12 +59,11 @@ public class UpdateTariffCommand implements Command {
 
         try {
             tariffService.updateTariff(Integer.parseInt(id), name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
-            request.setAttribute("successMessage", "Tariff has been updated successfully");
+            request.setAttribute("successMessage", rb.getString("message.tariff.updated"));
             logger.trace("Tariff has been updated");
         } catch (RuntimeException ex) {
             logger.error(ex.getMessage());
-            errorMessage = "Tariff hasn't been changed";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
         }
 
 

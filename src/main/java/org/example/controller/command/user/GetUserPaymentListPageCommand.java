@@ -2,6 +2,7 @@ package org.example.controller.command.user;
 
 import org.apache.log4j.Logger;
 import org.example.controller.command.Command;
+import org.example.controller.command.CommandUtility;
 import org.example.model.entity.Payment;
 import org.example.model.service.PaymentService;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class GetUserPaymentListPageCommand implements Command {
 
@@ -24,8 +26,7 @@ public class GetUserPaymentListPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Commands starts");
-
-        String errorMessage = null;
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
 
         String userLogin = (String) request.getSession().getAttribute("login");
 
@@ -34,9 +35,8 @@ public class GetUserPaymentListPageCommand implements Command {
         try {
             paymentList = paymentService.getPaymentListByUser(userLogin);
         } catch (RuntimeException ex) {
-            errorMessage = "Request is failed";
-            request.setAttribute("errorMessage", errorMessage);
-            logger.error(errorMessage);
+            request.setAttribute("errorMessage", rb.getString("message.error"));
+            logger.error(rb.getString("message.error"));
             logger.error(ex);
         }
 
@@ -44,8 +44,6 @@ public class GetUserPaymentListPageCommand implements Command {
                 .map(Payment::getPayment)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        request.setAttribute("successMessage", "Request is finished successfully");
-        logger.trace("Request is finished successfully");
         request.getSession().setAttribute("paymentList", paymentList);
         request.getSession().setAttribute("total", sum);
 
