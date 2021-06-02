@@ -42,12 +42,7 @@ public class TariffService {
         return dao.findAllByServiceId(id, sort, order);
     }
 
-    //return Tariff
     public void createTariff(String name, String description, String duration, BigDecimal price, int serviceId) {
-//        Service service = new Service.Builder()
-//                .withId(serviceId)
-//                .build();
-
         Tariff tariff = new Tariff.Builder()
                 .withName(name)
                 .withDescription(description)
@@ -63,17 +58,15 @@ public class TariffService {
     }
 
     public void updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
-        Service service = new Service.Builder()
-                .withId(serviceId)
-                .build();
-
         Tariff tariff = new Tariff.Builder()
                 .withId(id)
                 .withName(name)
                 .withDescription(description)
                 .withDuration(duration)
                 .withPrice(price)
-                .withService(service)
+                .withService(new Service.Builder()
+                        .withId(serviceId)
+                        .build())
                 .build();
 
         TariffDAO dao = daoFactory.createTariffDao();

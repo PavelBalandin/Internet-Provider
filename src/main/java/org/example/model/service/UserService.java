@@ -25,27 +25,24 @@ public class UserService {
     }
 
     public void createUser(String name, String password, String firstname, String lastname) {
-        User user = new User();
-        user.setLogin(name);
-        user.setPassword(password);
-        user.setFirstName(firstname);
-        user.setLastName(lastname);
 
         UserDAO dao = daoFactory.createUserDao();
-        dao.create(user);
+        dao.create(new User.Builder()
+                .withLogin(name)
+                .withPassword(password)
+                .withFirstName(firstname)
+                .withLastName(lastname)
+                .build());
     }
 
     public void updateUser(int id, int statusId) {
         Status status = new Status();
         status.setId(statusId);
-
-        User user = new User.Builder()
+        UserDAO dao = daoFactory.createUserDao();
+        dao.update(new User.Builder()
                 .withId(id)
                 .withStatus(status)
-                .build();
-
-        UserDAO dao = daoFactory.createUserDao();
-        dao.update(user);
+                .build());
     }
 
     public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {

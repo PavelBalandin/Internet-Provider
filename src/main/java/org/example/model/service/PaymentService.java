@@ -18,13 +18,12 @@ public class PaymentService {
     }
 
     public void createPayment(String userLogin, BigDecimal payment) {
-        User user = new User.Builder()
-                .withLogin(userLogin)
-                .build();
-
         Payment paymentEntity = new Payment();
         paymentEntity.setPayment(payment);
-        paymentEntity.setUser(user);
+        paymentEntity.setUser(new User.Builder()
+                .withLogin(userLogin)
+                .build()
+        );
 
         PaymentDAO dao = daoFactory.createPaymentDao();
         dao.create(paymentEntity);
