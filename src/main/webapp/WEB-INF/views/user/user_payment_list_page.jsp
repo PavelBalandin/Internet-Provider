@@ -22,8 +22,7 @@
             <c:forEach var="payment" items="${paymentList}">
                 <tr>
                     <td>${payment.payment}</td>
-                    <td>${payment.dateTime.toString()}</td>
-<%--                    <td><fmt:formatDate value="${payment.dateTime}" type="date" dateStyle="short" /></td>--%>
+                    <td><custom:LocalDateTag date="${payment.dateTime}"/></td>
                 </tr>
             </c:forEach>
             </tbody>
