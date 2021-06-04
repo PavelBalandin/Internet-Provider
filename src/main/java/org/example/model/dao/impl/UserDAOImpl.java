@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 public class UserDAOImpl implements UserDAO {
 
-    private final String SELECT_USERS = "SELECT * FROM USERS;";
-    private final String SELECT_USER_BY_ID = "SELECT * FROM USERS WHERE id = ?;";
     private final String SELECT_USER_BY_LOGIN = "SELECT u.*, \n" +
             "r.id as role_id, r.name as role_name,\n" +
             "s.id as status_id, s.name as status_name\n" +
@@ -66,7 +64,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findByLogin(String login) {
         User user = null;
-        List<Payment> payments = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN)) {
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
@@ -121,7 +118,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public BigDecimal makeOrder(String userLogin, List<Tariff> tariffList) {
         try (PreparedStatement ps = connection.prepareStatement(MAKE_ORDER)) {
-            Array sqlArray = connection.createArrayOf("INTEGER", tariffList.stream().map(BaseEntity::getId).collect(Collectors.toList()).toArray());
+            Array sqlArray = connection.createArrayOf("INTEGER", tariffList.stream().map(BaseEntity::getId)
+                    .collect(Collectors.toList()).toArray());
             ps.setString(1, userLogin);
             ps.setArray(2, sqlArray);
             ResultSet rs = ps.executeQuery();

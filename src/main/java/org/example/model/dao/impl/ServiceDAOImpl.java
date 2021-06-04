@@ -1,7 +1,5 @@
 package org.example.model.dao.impl;
 
-import org.apache.log4j.Logger;
-import org.example.controller.command.common.LoginCommand;
 import org.example.model.dao.ServiceDAO;
 import org.example.model.dao.mapper.ServiceMapper;
 import org.example.model.dao.mapper.TariffMapper;
@@ -20,11 +18,6 @@ import java.util.Map;
 public class ServiceDAOImpl implements ServiceDAO {
 
     private final String SELECT_SERVICES = "SELECT s.id AS serviceid, s.name as servicename, t.*  FROM services s JOIN tariffs t ON s.id = t.service_id;";
-    private static final String SELECT_SERVICE_BY_ID = "SELECT * FROM SERVICES WHERE id = ?;";
-    private static final String SELECT_SERVICE_BY_NAME = "SELECT * FROM SERVICES WHERE name = ?;";
-    private static final String INSERT_SERVICE = "INSERT INTO SERVICES VALUES(DEFAULT, ?);";
-    private static final String UPDATE_SERVICE = "UPDATE SERVICES SET name  = ? WHERE id = ?;";
-    private static final String DELETE_SERVICE = "DELETE FROM SERVICES WHERE id = ?;";
 
     private Connection connection;
 
@@ -77,6 +70,5 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public void delete(int id) {
-
     }
 }

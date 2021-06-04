@@ -1,10 +1,11 @@
 package org.example.model.dao.impl;
 
-import org.apache.log4j.Logger;
-import org.example.controller.command.common.LoginCommand;
 import org.example.model.dao.TariffDAO;
-import org.example.model.dao.mapper.*;
-import org.example.model.entity.*;
+import org.example.model.dao.mapper.ServiceMapper;
+import org.example.model.dao.mapper.TariffMapper;
+import org.example.model.entity.Service;
+import org.example.model.entity.Tariff;
+import org.example.model.entity.TariffPage;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 public class TariffDAOImpl implements TariffDAO {
 
-    private final String SELECT_TARIFFS = "SELECT * FROM TARIFFS;";
     private final String SELECT_TARIFFS_BY_ID =
             "SELECT t.*, s.id as serviceid, s.name as servicename " +
                     "FROM tariffs t JOIN services s ON t.service_id = s.id " +
