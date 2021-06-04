@@ -47,7 +47,7 @@ CREATE TABLE tariffs
     id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     description VARCHAR(200) NOT NULL,
-    duration VARCHAR(30) NOT NULL,
+    duration integer NOT NULL,
     price NUMERIC(19,2) NOT NULL,
     service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE
 );
@@ -109,7 +109,7 @@ INSERT INTO tariffs VALUES (DEFAULT, 'Mega','до 1 Гбіт/с', 30, 399, 2);
 INSERT INTO tariffs VALUES (DEFAULT, 'Start TV', '140 каналів', 30, 255, 3);
 INSERT INTO tariffs VALUES (DEFAULT, 'VIP TV', '200 каналів', 30, 320, 3);
 
-INSERT INTO tariffs VALUES (DEFAULT, 'VIP', 'до 100 Мбіт/с, 140 каналів', 30, 400, 4);
+INSERT INTO tariffs VALUES (DEFAULT, 'VIP', 'до 100 Мбіт/с, 140 каналів', 60, 400, 4);
 
 
 INSERT INTO user_tariff VALUES(2,1, current_date, current_date + interval '30 days');
@@ -137,20 +137,21 @@ CREATE OR REPLACE FUNCTION make_order(varchar(30), int[])
 RETURNS numeric AS
 $$
 DECLARE
-user_id_f int;
-psum numeric;
-tsum numeric;
-tariff_id int;
+current_user_id int; -- current user id
+psum numeric; -- payments sum
+tsum numeric; -- tariffs sum
+tariff tariffs%rowtype; -- tariff
 BEGIN
-SELECT u.id into user_id_f FROM users u where u.login = $1;
-SELECT sum(payment) into psum FROM payments p where p.user_id = user_id_f;
+SELECT u.id into current_user_id FROM users u where u.login = $1;
+SELECT sum(payment) into psum FROM payments p where p.user_id = current_user_id;
 SELECT sum(price) into tsum FROM tariffs t where t.id = ANY($2);
 IF psum - tsum >= 0 THEN
-  FOREACH tariff_id IN ARRAY $2
+  FOR tariff IN
+    SELECT * FROM tariffs t where t.id = ANY($2)
   LOOP
-    INSERT INTO user_tariff VALUES(user_id_f, tariff_id, current_date, current_date + interval '1 month');
+    INSERT INTO user_tariff VALUES(current_user_id, tariff.id, current_date, current_date + (tariff.duration * interval '1 day'));
   END LOOP;
-  INSERT INTO payments VALUES(DEFAULT, -tsum, user_id_f, DEFAULT);
+  INSERT INTO payments VALUES(DEFAULT, -tsum, current_user_id, DEFAULT);
 END IF;
 RETURN psum - tsum;
 END;

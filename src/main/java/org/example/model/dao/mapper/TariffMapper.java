@@ -13,7 +13,7 @@ public class TariffMapper implements ObjectMapper<Tariff> {
         tariff.setId(rs.getInt("id"));
         tariff.setName(rs.getString("name"));
         tariff.setDescription(rs.getString("description"));
-        tariff.setDuration(rs.getString("duration"));
+        tariff.setDuration(rs.getInt("duration"));
         tariff.setPrice(rs.getBigDecimal("price"));
         return tariff;
     }

@@ -57,7 +57,7 @@ public class TariffDAOImpl implements TariffDAO {
         try (PreparedStatement ps = connection.prepareStatement(INSERT_TARIFFS)) {
             ps.setString(1, tariff.getName());
             ps.setString(2, tariff.getDescription());
-            ps.setString(3, tariff.getDuration());
+            ps.setInt(3, tariff.getDuration());
             ps.setBigDecimal(4, tariff.getPrice());
             ps.setInt(5, tariff.getService().getId());
             ResultSet rs = ps.executeQuery();
@@ -232,7 +232,7 @@ public class TariffDAOImpl implements TariffDAO {
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_TARIFFS)) {
             ps.setString(1, tariff.getName());
             ps.setString(2, tariff.getDescription());
-            ps.setString(3, tariff.getDuration());
+            ps.setInt(3, tariff.getDuration());
             ps.setBigDecimal(4, tariff.getPrice());
             ps.setInt(5, tariff.getService().getId());
             ps.setInt(6, tariff.getId());

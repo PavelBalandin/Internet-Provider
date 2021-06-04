@@ -11,7 +11,7 @@ public class Tariff extends BaseEntity {
 
     private String description;
 
-    private String duration;
+    private int duration;
 
     private BigDecimal price;
 
@@ -33,11 +33,11 @@ public class Tariff extends BaseEntity {
         this.description = description;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -62,9 +62,9 @@ public class Tariff extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return Objects.equals(name, tariff.name) &&
+        return duration == tariff.duration &&
+                Objects.equals(name, tariff.name) &&
                 Objects.equals(description, tariff.description) &&
-                Objects.equals(duration, tariff.duration) &&
                 Objects.equals(price, tariff.price) &&
                 Objects.equals(service, tariff.service);
     }
@@ -79,7 +79,7 @@ public class Tariff extends BaseEntity {
         return "Tariff{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", duration='" + duration + '\'' +
+                ", duration=" + duration +
                 ", price=" + price +
                 ", service=" + service +
                 '}';
@@ -107,7 +107,7 @@ public class Tariff extends BaseEntity {
             return this;
         }
 
-        public Builder withDuration(String duration) {
+        public Builder withDuration(int duration) {
             tariff.setDuration(duration);
             return this;
         }

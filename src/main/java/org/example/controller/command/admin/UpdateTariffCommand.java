@@ -58,7 +58,7 @@ public class UpdateTariffCommand implements Command {
         }
 
         try {
-            tariffService.updateTariff(Integer.parseInt(id), name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
+            tariffService.updateTariff(Integer.parseInt(id), name, description, Integer.parseInt(duration), new BigDecimal(price), Integer.parseInt(serviceId));
             request.setAttribute("successMessage", rb.getString("message.tariff.updated"));
             logger.trace("Tariff has been updated");
         } catch (RuntimeException ex) {

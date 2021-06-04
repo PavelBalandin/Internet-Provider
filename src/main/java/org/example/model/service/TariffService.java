@@ -41,7 +41,7 @@ public class TariffService {
         return dao.findAllByServiceId(id, sort, order);
     }
 
-    public Tariff createTariff(String name, String description, String duration, BigDecimal price, int serviceId) {
+    public Tariff createTariff(String name, String description, int duration, BigDecimal price, int serviceId) {
         Tariff tariff = new Tariff.Builder()
                 .withName(name)
                 .withDescription(description)
@@ -58,7 +58,7 @@ public class TariffService {
         return tariffFromDb;
     }
 
-    public Tariff updateTariff(int id, String name, String description, String duration, BigDecimal price, int serviceId) {
+    public Tariff updateTariff(int id, String name, String description, int duration, BigDecimal price, int serviceId) {
         Tariff tariff = new Tariff.Builder()
                 .withId(id)
                 .withName(name)

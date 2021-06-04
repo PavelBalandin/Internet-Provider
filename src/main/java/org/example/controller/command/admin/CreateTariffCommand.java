@@ -54,7 +54,7 @@ public class CreateTariffCommand implements Command {
         }
 
         try {
-            tariffService.createTariff(name, description, duration, new BigDecimal(price), Integer.parseInt(serviceId));
+            tariffService.createTariff(name, description, Integer.parseInt(duration), new BigDecimal(price), Integer.parseInt(serviceId));
             request.setAttribute("successMessage", rb.getString("message.tariff.created"));
             logger.trace(rb.getString("message.tariff.created"));
         } catch (RuntimeException ex) {
