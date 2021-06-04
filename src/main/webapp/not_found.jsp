@@ -16,7 +16,6 @@
         <h1>${errorNotFound}</h1>
         <p>${errorPermissionDenied}</p>
         <a href="/">${errorReturnMain}</a>
-        <%--        <p>${errorMessage}</p>--%>
     </div>
 </div>
 </body>

@@ -43,7 +43,7 @@ public class AccessFilter implements Filter {
             String errorMessage = "You don't have permission to access the requested resource";
             request.setAttribute("errorMessage", errorMessage);
             logger.trace("User doesn't have permission to access the requested resource");
-            request.getRequestDispatcher("/error.jsp")
+            request.getRequestDispatcher("/not_found.jsp")
                     .forward(request, response);
         }
 
