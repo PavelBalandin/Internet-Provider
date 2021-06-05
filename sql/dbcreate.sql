@@ -23,7 +23,7 @@ CREATE TABLE users
 (
     id SERIAL NOT NULL PRIMARY KEY,
     login VARCHAR(30) NOT NULL UNIQUE,
-    password VARCHAR(30) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     firstname VARCHAR(30) NOT NULL,
     lastname VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL REFERENCES roles(id) DEFAULT 1,
@@ -83,13 +83,13 @@ INSERT INTO roles VALUES(DEFAULT, 'ADMIN');
 INSERT INTO statuses VALUES(DEFAULT, 'ENABLED');
 INSERT INTO statuses VALUES(DEFAULT, 'DISABLED');
 
-INSERT INTO users VALUES(DEFAULT, 'Admin', 'admin', 'First name', 'Last name', 2 , 1);
-INSERT INTO users VALUES(DEFAULT, 'User', 'user', 'User first name', 'User last name', 1 , 1);
-INSERT INTO users VALUES(DEFAULT, 'Pasha', 'pasha', 'Pavel', 'Balandin', 1 , 1);
-INSERT INTO users VALUES(DEFAULT, 'Dasha', 'dasha', 'Darya', 'Petrenko', 1 , 1);
-INSERT INTO users VALUES(DEFAULT, 'Sasha', 'sasha', 'Oleksandr', 'Novikov', 1 , 1);
-INSERT INTO users VALUES(DEFAULT, 'Masha', 'masha', 'Mariya', 'Sidorova', 1 , 1);
-INSERT INTO users VALUES(DEFAULT, 'Sergey', 'sergey', 'Sergey', 'Voronin', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Admin', '21232F297A57A5A743894A0E4A801FC3', 'Mikhail', 'Kutuzov', 2 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Yaroslav', 'E2D1D3F22F3782F45F9B2C3C0B013D13', 'Yaroslav', 'Panov', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Pasha', 'EC8BC8E2B120D143E7274DE2508F3F6F', 'Pavel', 'Balandin', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Dasha', '4BEA249142664D11A289FFDF30225A91', 'Darya', 'Petrenko', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Sasha', '481F693417E9A74E783CAEA72063B606', 'Oleksandr', 'Novikov', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Masha', 'C3CC6E312D2BAD42CF535AAC3A259ABD', 'Mariya', 'Sidorova', 1 , 1);
+INSERT INTO users VALUES(DEFAULT, 'Sergey', 'D947F2DEF6D2F32C2FC7DF910ED00600', 'Sergey', 'Voronin', 1 , 1);
 
 INSERT INTO services VALUES(DEFAULT, 'Телефон');
 INSERT INTO services VALUES(DEFAULT, 'Інтернет');

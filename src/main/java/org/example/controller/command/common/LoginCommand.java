@@ -40,7 +40,7 @@ public class LoginCommand implements Command {
         }
 
         User user = userService.getUserByLogin(login);
-        if (user == null || !user.getPassword().equals(password)) {
+        if (user == null || !user.getPassword().equals(CommandUtility.hash(password))) {
             request.setAttribute(ERROR_MESSAGE, rb.getString("incorrect.login.or.password"));
             logger.trace(ERROR_TAG + rb.getString("incorrect.login.or.password"));
             return LOGIN_PAGE;

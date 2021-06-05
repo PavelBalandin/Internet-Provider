@@ -40,7 +40,7 @@ public class CreateUserCommand implements Command {
             return "/WEB-INF/views/admin/add_user_page.jsp";
         }
         try {
-            userService.createUser(login, password, firstname, lastname);
+            userService.createUser(login, CommandUtility.hash(password), firstname, lastname);
             request.setAttribute("successMessage", rb.getString("message.user.created"));
             logger.trace("User has been added");
         } catch (RuntimeException ex) {
