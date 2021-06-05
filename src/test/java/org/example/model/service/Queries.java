@@ -141,13 +141,16 @@ public interface Queries {
             "$$\n" +
             "DECLARE\n" +
             "current_user_id int; -- current user id\n" +
-            "psum numeric; -- payments sum\n" +
+            "psum numeric; -- user payments sum\n" +
             "tsum numeric; -- tariffs sum\n" +
             "tariff tariffs%rowtype; -- tariff\n" +
             "BEGIN\n" +
             "SELECT u.id into current_user_id FROM users u where u.login = $1;\n" +
             "SELECT sum(payment) into psum FROM payments p where p.user_id = current_user_id;\n" +
             "SELECT sum(price) into tsum FROM tariffs t where t.id = ANY($2);\n" +
+            "IF (SELECT ARRAY(SELECT ut.tariff_id FROM user_tariff ut WHERE user_id = current_user_id)) && $2 THEN\n" +
+            "\traise exception 'User have already had the tariffs';\n" +
+            "END IF;\n" +
             "IF psum - tsum >= 0 THEN\n" +
             "  FOR tariff IN\n" +
             "    SELECT * FROM tariffs t where t.id = ANY($2)\n" +

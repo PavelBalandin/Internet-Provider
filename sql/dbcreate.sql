@@ -138,13 +138,16 @@ RETURNS numeric AS
 $$
 DECLARE
 current_user_id int; -- current user id
-psum numeric; -- payments sum
+psum numeric; -- user payments sum
 tsum numeric; -- tariffs sum
 tariff tariffs%rowtype; -- tariff
 BEGIN
 SELECT u.id into current_user_id FROM users u where u.login = $1;
 SELECT sum(payment) into psum FROM payments p where p.user_id = current_user_id;
 SELECT sum(price) into tsum FROM tariffs t where t.id = ANY($2);
+IF (SELECT ARRAY(SELECT ut.tariff_id FROM user_tariff ut WHERE user_id = current_user_id)) && $2 THEN
+	raise exception 'User have already had the tariffs';
+END IF;
 IF psum - tsum >= 0 THEN
   FOR tariff IN
     SELECT * FROM tariffs t where t.id = ANY($2)

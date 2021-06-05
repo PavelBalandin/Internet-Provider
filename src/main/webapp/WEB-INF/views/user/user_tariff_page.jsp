@@ -28,8 +28,6 @@
                     <th>${tariffDescription}</th>
                     <th>${tariffPrice}</th>
                     <th>${serviceService}</th>
-                    <th>${tariffStart}</th>
-                    <th>${tariffEnd}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,8 +37,6 @@
                         <td>${tariff.description}</td>
                         <td>${tariff.price} ${tariffCurrency} / ${tariff.duration} ${tariffDays}</td>
                         <td>${tariff.service.name}</td>
-                        <td><custom:LocalDateTag date="${payment.dateTime}"/></td>
-                        <td><custom:LocalDateTag date="${payment.dateTime}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
