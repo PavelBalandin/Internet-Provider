@@ -5,6 +5,7 @@
 <fmt:message key="service.tariff" var="serviceTariff"/>
 <fmt:message key="service.more" var="serviceMore"/>
 <fmt:message key="service.download" var="serviceDownload"/>
+<fmt:message key="service.welcome" var="serviceWelcome"/>
 
 <html>
 <head>
@@ -16,6 +17,12 @@
 
 <div class="container">
     <div class="services_list">
+        <c:if test="${serviceList == null}">
+            <div class="welcome">
+                <h2>${serviceWelcome}</h2>
+                <a href="${pageContext.request.contextPath}/InternetProvider/getServiceList">${headerService}</a>
+            </div>
+        </c:if>
         <c:if test="${serviceList.size() > 0}">
             <table class="striped">
                 <thead>
